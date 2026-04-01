@@ -1,2 +1,3 @@
-# Conv_AI_Assignment_2
-GPT-Style (Decoder-Only) LLM from Scratch 
+# AIS-175 Regulatory Compliance Engine
+
+Run: streamlit run dashboard/app.py
