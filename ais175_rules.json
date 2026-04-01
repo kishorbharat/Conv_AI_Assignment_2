@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "AIS175-001",
+    "title": "Vessel Identification",
+    "keywords": ["vessel", "identification", "MMSI", "call sign"],
+    "text": "Every vessel must broadcast a unique MMSI number and call sign at all times when operating in monitored waters."
+  },
+  {
+    "id": "AIS175-002",
+    "title": "Position Reporting Interval",
+    "keywords": ["position", "reporting", "interval", "frequency", "update"],
+    "text": "Class A transponders must report position at intervals no greater than 10 seconds when underway and 3 minutes when at anchor."
+  },
+  {
+    "id": "AIS175-003",
+    "title": "Static and Voyage Data",
+    "keywords": ["voyage", "static", "destination", "ETA", "draught"],
+    "text": "Vessels must transmit static and voyage-related data including ship name, destination, ETA, and maximum present static draught."
+  },
+  {
+    "id": "AIS175-004",
+    "title": "Transponder Equipment Standards",
+    "keywords": ["transponder", "equipment", "class A", "class B", "installation"],
+    "text": "AIS transponders must comply with IEC 62287 (Class B) or IEC 61993-2 (Class A) equipment standards."
+  },
+  {
+    "id": "AIS175-005",
+    "title": "Safety-Related Messages",
+    "keywords": ["safety", "message", "broadcast", "urgency", "distress"],
+    "text": "Safety-related messages may be broadcast on AIS to warn of hazards, distress, or urgent navigational information."
+  },
+  {
+    "id": "AIS175-006",
+    "title": "Speed Over Ground",
+    "keywords": ["speed", "SOG", "ground", "knots"],
+    "text": "Speed over ground (SOG) must be reported accurately to the nearest 0.1 knot."
+  },
+  {
+    "id": "AIS175-007",
+    "title": "Course Over Ground",
+    "keywords": ["course", "COG", "heading", "bearing"],
+    "text": "Course over ground (COG) and true heading must be reported in degrees (0–359)."
+  },
+  {
+    "id": "AIS175-008",
+    "title": "Navigation Status",
+    "keywords": ["navigation", "status", "anchored", "moored", "underway"],
+    "text": "The navigational status field must accurately reflect the vessel's current state (e.g., underway using engine, at anchor, moored)."
+  },
+  {
+    "id": "AIS175-009",
+    "title": "Data Integrity",
+    "keywords": ["integrity", "accuracy", "data", "error", "validation"],
+    "text": "All transmitted AIS data must be verified for accuracy before transmission; erroneous data must be corrected immediately."
+  },
+  {
+    "id": "AIS175-010",
+    "title": "Record Keeping",
+    "keywords": ["record", "log", "history", "archive", "retention"],
+    "text": "AIS records must be retained for a minimum of 12 months and made available to competent authorities upon request."
+  }
+]
