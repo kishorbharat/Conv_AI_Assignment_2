@@ -1,6 +1,9 @@
 pdfplumber
 regex
 streamlit
+fastapi
+uvicorn
+python-multipart
 pandas
 plotly
 scikit-learn
