@@ -1,0 +1,75 @@
+GROUP CONTRIBUTION STATEMENT (4 MEMBERS)
+
+Project: Pre-training a GPT-Style Decoder-Only LLM from Scratch
+Repository: Conv_AI_Group_Assignment
+
+Use this sheet in your final submission and as speaking notes for the demo video.
+
+==================================================
+1) INDIVIDUAL CONTRIBUTION PERCENTAGE (TOTAL = 100)
+==================================================
+
+Kishor Bharat
+- Student ID: 2024TM05030
+- Contribution: 30%
+- Key work completed:
+  1. Collected and organized PDF source files under data/pdfs.
+  2. Implemented/validated raw text extraction outputs.
+  3. Defined and verified cleaning logic for PDF noise removal.
+
+Saurabh Mani
+- Student ID: 2024TM05067
+- Contribution: 25%
+- Key work completed:
+  1. Trained tokenizer from cleaned corpus.
+  2. Managed tokenizer artifacts (vocab and merges files).
+  3. Prepared CLM dataset with shifted input-label pairs.
+
+Saranjit Singh
+- Student ID: 2024TM05027
+- Contribution: 25%
+- Key work completed:
+  1. Implemented decoder-only Transformer blocks and forward pass.
+  2. Configured loss, optimizer, and model training loop.
+  3. Trained model and generated checkpoint artifacts.
+
+Aniruddha Madan Patil
+- Student ID: 2024TM05041
+- Contribution: 20%
+- Key work completed:
+  1. Ran inference prompts and collected 5+ sample outputs.
+  2. Evaluated quality/coherence and documented inferences.
+  3. Consolidated README/report content and prepared submission package.
+
+Total contribution = 100%
+
+==================================================
+2) VIDEO COVERAGE CHECKLIST (ALL MEMBERS MUST SPEAK)
+==================================================
+
+In the recorded demo, ensure all members explain their own tasks:
+
+- Kishor Bharat explains data collection, extraction, and cleaning approach.
+- Saurabh Mani explains tokenizer and CLM dataset generation.
+- Saranjit Singh explains model architecture, training, and saved artifacts.
+- Aniruddha Madan Patil explains inference outputs, qualitative analysis, and conclusion.
+
+Mandatory video requirements:
+- Explain every assignment task clearly.
+- Justify resulting inferences.
+- Include contribution from all team members.
+
+==================================================
+3) SUBMISSION LINK DETAILS
+==================================================
+
+Microsoft Stream (SharePoint) Link: <paste-link>
+Viewer Access: Anyone with university access can view
+Video Duration: <enter-duration>
+
+==================================================
+4) FINAL NOTE
+==================================================
+
+If your real effort split is different, update percentages and key work before final submission.
+The declared contribution percentages must reflect actual involvement.

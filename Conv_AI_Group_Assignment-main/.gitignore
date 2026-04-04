@@ -1,0 +1,12 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# OS / editor noise
+.DS_Store
+.vscode/
+
+# Runtime artifacts
+*.log
+*.tmp
