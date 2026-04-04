@@ -1,0 +1,18 @@
+
+=== Five Generation Examples ===
+
+1. Prompt: The company policy states
+   Output: the company policy states . is 42 . is ( activated 2 . − emissions 3 geither a 26 5 and noreporcolldr1this mco 0 fuel in the 1 s , . is ty or ( : propane vehicle . e sealed clased no vehicle be . e one paragraph devices of 3 arthis agency of 3 ly the " the shall as . e kept confirthis er depleting each test number at sensor 5 vehicles ywith applicable , . electric , . with the ) the / g paragraph 3 distance ̅ g the shall the shall g 7 3 distance of . ed i . is y bench paragraph 3 without if
+
+2. Prompt: In this contract, the party shall
+   Output: in this contract , the party shall the 1 the ) correction . than … 0 using 5 vehicles vmax measurement , . kthe h initial of . 35 vannex the h annex 2 + . than requirements to annex the . than to annex , where line the . kor . than 16 ( 0 where line in the / including . than calibr0 where 35 trannex , line the in the in correction . atbe correction vehicle . than suthe in ement the in including . use consumption . than cop speed . than ∗ ts performthe in as . than carried lonaccording . than more paragraph 3 are a and volcorrection vehicle equation mixing
+
+3. Prompt: According to section 4, compliance requires
+   Output: according to section 4 , compliance requires engineat . − [ according instantaneous a profile ing mg vehicle . test the as an ( 13 01 ar km mass 99 run vj placed the c to b upon coolant ; not in the / the 1 the shall output and 8 0 . 8 [ according content this 97 atthis agency 2 individual . 8 the h annex the conditions or . 8 = 3 we0 where do vehicle . 10 [ according test be per test co be per driven the in the ) 50 . test be average . 8 ’ filter the as . 8 board hevs 3 44 5 . 8 events 200 be ppm regul. ± 7 3
+
+4. Prompt: The risk management framework includes
+   Output: the risk management framework includes there , . is 4- fuel 1 for the 1 the shall the / for 0 . constant driven be average . 6 final the 1 blower 1 the 1 output lsequence of and notification lines , temperature wltc = 3 are vehicle . requirements constru0 . es , . m energy the 1 to s 55 of start be used has l5 . is the 1 be operation . tanalysis ( . tis the h paragraph 3 ly the 1 as . is 2 an exhaust 3 + of mass 99 km 12 regulation . is speed . is − [ according instantaneous a time interference resthe 1 s 7 3
+
+5. Prompt: This report concludes that
+   Output: this report concludes that f the c to b upon fid ; not 4 the / the 1 . is ty be average 0 . 6 final the shall the in 8 ’ filter and tively rural inmanrou, . n . 8 [ according within to s cd this 97 atof 3 are a and there 2 pluno vehicle . 10 [ according test co be per test co the as an ( : . test 5 . test co ations or . test = 3 + of where data calculated annex the in the ) correction . test ded 0 using 5 . vmax test ary next 5 . correction vehicle . test ary the h initial of
+

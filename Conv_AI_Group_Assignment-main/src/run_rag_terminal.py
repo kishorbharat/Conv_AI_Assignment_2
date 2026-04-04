@@ -562,6 +562,19 @@ def train_model(args):
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, drop_last=True)
 
+    # Allow resuming: override arch args from checkpoint config if --resume
+    checkpoint_path = Path(args.checkpoint)
+    if getattr(args, 'resume', False) and checkpoint_path.exists():
+        ckpt = torch.load(checkpoint_path, map_location=device)
+        cfg = ckpt["config"]
+        args.d_model = cfg["d_model"]
+        args.n_head = cfg["n_head"]
+        args.n_layer = cfg["n_layer"]
+        args.dropout = cfg["dropout"]
+        args.block_size = cfg["block_size"]
+        print(f"Resuming from checkpoint: {checkpoint_path}")
+        print(f"Loaded config: {cfg}")
+
     model = DecoderOnlyTransformer(
         vocab_size=len(vocab),
         block_size=args.block_size,
@@ -570,6 +583,11 @@ def train_model(args):
         n_layer=args.n_layer,
         dropout=args.dropout,
     ).to(device)
+
+    if getattr(args, 'resume', False) and checkpoint_path.exists():
+        model.load_state_dict(ckpt["model_state"])
+        print("Loaded model weights from checkpoint. Continuing training...")
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.01)
 
     n_params = count_parameters(model)
@@ -801,6 +819,7 @@ def build_parser():
     p_train.add_argument("--n-head", type=int, default=6)
     p_train.add_argument("--n-layer", type=int, default=8)
     p_train.add_argument("--dropout", type=float, default=0.1)
+    p_train.add_argument("--resume", action="store_true", help="Warm-start from existing checkpoint")
     p_train.set_defaults(func=lambda a: (set_seed(a.seed), train_model(a)))
 
     p_gen = sub.add_parser("generate", help="Step 6: Generate text from prompt")
