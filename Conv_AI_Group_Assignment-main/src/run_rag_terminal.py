@@ -578,6 +578,7 @@ def train_model(args):
     print(f"Model parameters: {n_params:,} (~{n_params / 1e6:.2f}M)")
 
     global_step = 0
+    stop_training = False
     for epoch in range(1, args.epochs + 1):
         running_loss = 0.0
         for x, y in train_loader:
@@ -601,10 +602,15 @@ def train_model(args):
                     f"epoch {epoch:02d} | step {global_step:06d} | "
                     f"train loss {avg_train_loss:.4f} | val loss {val_loss:.4f} | val ppl {val_ppl:.2f}"
                 )
+                if val_loss < 0.05:
+                    print("Loss is sufficiently low. Stopping training.")
+                    stop_training = True
+                    break
 
             if global_step >= args.max_steps:
+                stop_training = True
                 break
-        if global_step >= args.max_steps:
+        if stop_training:
             break
 
     ckpt = {
