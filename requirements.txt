@@ -1,7 +1,0 @@
-pdfplumber
-regex
-streamlit
-pandas
-plotly
-scikit-learn
-joblib
