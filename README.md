@@ -251,6 +251,8 @@ This executes:
 - `train-model`
 - `generate`
 - `demo-5`
+- `answer`
+- `demo-qa`
 - `run-all`
 
 You can inspect all arguments with:
@@ -352,30 +354,3 @@ The following predictions were generated from the AIS-175 WLTP corpus after trai
 5. **Prompt:** What are criteria for including new vehicle in interpolation family?
 
    **Generated Answer:** Under paragraph 6.3.2.1.2, a new vehicle may join an existing interpolation family only if it is identical to all current members with respect to: (a) ICE type — fuel type, combustion process, engine capacity, full-load characteristics, engine technology, and charging system; (b) operation strategy of all CO2-influencing powertrain components; (c) transmission type and model; (d) n/v ratios within 8 per cent of the most commonly installed transmission; and (e) number of powered axles. Additionally, any alternative parameter (e.g. higher nmin_drive or ASM) used within the family must remain the same for the new vehicle.
-
----
-
-6. **Prompt:** Do this standard cover Flex Fuel vehicles? explain in short
-
-   **Generated Answer:** Yes. AIS 175 explicitly covers Flex Fuel vehicles. Paragraph 3.3.25 defines a Flex Fuel Vehicle as one with a single fuel storage system capable of running on different mixtures of two or more fuels, and paragraph 3.3.26 defines the Flex Fuel Ethanol Vehicle sub-type (petrol/ethanol blends up to E85). Section 5.8 contains dedicated additional requirements for type approval of flex fuel ethanol and biodiesel vehicles, including the requirement that the vehicle can adapt to any fuel mixture available in the market, and that no manual engine re-adjustment is needed during fuel transition between reference fuels (paragraph 5.8.2). The interpolation family criteria in 6.3.2.1.2(a) also explicitly reference flex-fuel and bi-fuel fuel types.
-
----
-
-7. **Prompt:** Does the WLTP cycle in AIS-175 mention differences with respect to the earlier MIDC standard? If yes, what are those changes?
-
-   **Generated Answer:** Yes. AIS-175 references MIDC (Modified Indian Driving Cycle) in its abbreviation list and retains MIDC road load parameters (F0, F1, F2) in RDE reporting forms for transitional record-keeping, but the actual type-approval test cycle is now WLTC. The standard explicitly states the changes were made *"to reflect the changes from the previous New European Driving Cycle (NEDC) based Type I test to the new WLTP Type I test"* with primary goals of global harmonisation and reducing the lab-to-road gap for CO2 emissions. Key differences between WLTC and MIDC are:
-
-   | Parameter | MIDC (Earlier) | WLTC / AIS-175 (New) |
-   |---|---|---|
-   | **Basis** | Indian urban driving pattern (adapted from ECE 15 + EUDC) | Globally harmonised real-world driving data (UN GTR 15 Amdt. 6) |
-   | **Vehicle classification** | Single cycle for all vehicles | 3 classes based on Power-to-Mass ratio: Class 1 ≤22 W/kg, Class 2 22–34 W/kg, Class 3 >34 W/kg |
-   | **Cycle phases** | 2 phases: Urban + Extra-urban | 3–4 phases: Low + Medium + High (+ Extra-High for Class 3b) |
-   | **Cycle duration** | ~1180 s | 1611 s (Class 1); ~1477 s (Class 2/3 up to High phase) |
-   | **Speed range** | Max ~120 km/h | Class 3b Extra-High phase up to 131 km/h; speed capped per class |
-   | **CO2 reporting** | Single combined value | Reported per phase (Low, Medium, High, Extra-High) and weighted combined |
-   | **CO2 interpolation** | Not available | Interpolation between Vehicle H and Vehicle L within interpolation family |
-   | **Road load** | F0, F1, F2 from MIDC coastdown | Coastdown per Annex B4 with wind, temperature, and reference condition corrections |
-   | **On-road RDE test** | Not required | Mandatory RDE test using PEMS on real roads (Annex C6) |
-   | **Gear-shift procedure** | Fixed schedule | Calculated per engine speed, nmin_drive, ASM (Annex B2) |
-   | **EV / HEV coverage** | Not covered | Fully covered — PEV, NOVC-HEV, OVC-HEV, FCHV, Bi-fuel, Flex-fuel all included |
-   | **Standardisation** | India-specific | Globally harmonised — aligned with UN R154 / Europe |
