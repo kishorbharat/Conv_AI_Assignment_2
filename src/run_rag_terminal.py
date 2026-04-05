@@ -18,9 +18,13 @@ import math
 import random
 import re
 import sys
+import warnings
 from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Sequence, Tuple
+
+# Suppress harmless NumPy initialisation warning from PyTorch internals
+warnings.filterwarnings("ignore", message="Failed to initialize NumPy")
 
 try:
     import torch
@@ -292,31 +296,117 @@ def _split_sentences(text: str) -> List[str]:
 
 
 def answer_from_corpus(question: str, clean_text: str, top_k: int = 3) -> str:
-    """Return a readable extractive answer from corpus sentences for factual queries."""
-    q_norm = question
-    q_low = q_norm.lower()
+    """Return a readable extractive answer from corpus sentences for factual queries.
 
-    targeted_sections = [
-        ("vehicle", r"\d+\.\d+\s+vehicle"),
-        ("test", r"\d+\.\d+\s+test\s+procedure"),
-        ("brake", r"\d+\.\d+\s+brake"),
-        ("safety", r"\d+\.\d+\s+safety"),
-        ("approval", r"\d+\.\d+\s+approval"),
+    Uses intent-based section targeting: maps question themes to known corpus
+    section anchors so answers come from the right part of the document rather
+    than a superficial keyword overlap across the whole text.
+    """
+    q_low = question.lower()
+
+    # --- Intent → section anchor mapping -----------------------------------
+    # Each entry: (list_of_trigger_phrases, list_of_regex_anchors_in_corpus)
+    # The first anchor that matches is used; a 2000-char window is extracted.
+    INTENT_MAP = [
+        (
+            ["covered", "scope", "applicable", "applies", "which vehicle",
+             "what vehicle", "passenger car", "category", "commercial vehicle",
+             "which car", "type of vehicle"],
+            [r"1\.0\s+SCOPE", r"This Regulation applies to the type approval"],
+        ),
+        (
+            ["road load family", "roadload family", "roadload"],
+            [r"6\.3\.3\s+Road load family", r"Road load family"],
+        ),
+        (
+            ["interpolation family", "interpolation"],
+            [r"6\.3\.2\s+Interpolation family", r"6\.3\.2\.1\s+Interpolation family"],
+        ),
+        (
+            ["criteria", "new vehicle", "joining", "include.*family", "add.*family",
+             "criteria for including"],
+            [r"6\.3\.2\.1\.2"],
+        ),
+        (
+            ["flex fuel", "flex-fuel", "flexible fuel"],
+            [r"3\.3\.25", r"Flex fuel vehicle"],
+        ),
+        (
+            ["vehicle class", "wltc class", "wltp class", "class 1", "class 2",
+             "class 3", "power to mass", "classification"],
+            [r"2\.0 Vehicle classifications", r"2\.1 Class 1 vehicles"],
+        ),
+        (
+            ["weight", "mass", "test mass", "vehicle mass", "laden mass"],
+            [r"3\.2\.5\s", r"test mass of the vehicle", r"mass in running order"],
+        ),
+        (
+            ["gear", "gear shift", "gear selection", "shift point"],
+            [r"Annex B2", r"Gear selection"],
+        ),
+        (
+            ["cop", "conformity of production"],
+            [r"8\.0\s+Conformity", r"Conformity of production"],
+        ),
+        (
+            ["isc", "in-service conformity", "in service conformity"],
+            [r"9\.0\s+In", r"In.Service Conformity"],
+        ),
+        (
+            ["obd", "on-board diagnostic", "on board diagnostic"],
+            [r"Annex C5", r"On-Board Diagnostics"],
+        ),
+        (
+            ["rde", "real driving emission", "real driving emissions", "pems"],
+            [r"Annex C6", r"Real Driving Emission"],
+        ),
+        (
+            ["evaporative", "type iv", "type 4", "evap"],
+            [r"Annex C3", r"evaporative emissions"],
+        ),
+        (
+            ["durability", "type v", "type 5"],
+            [r"Annex C4", r"Type V test"],
+        ),
+        (
+            ["midc", "difference", "earlier standard", "previous standard",
+             "wltp vs", "wltp compared", "change from"],
+            [r"The main motivation for", r"changes from the previous"],
+        ),
+        (
+            ["approval", "type approval", "application for approval"],
+            [r"4\.0\s+Application", r"5\.0\s+Approval", r"Application for approval"],
+        ),
+        (
+            ["bi-fuel", "bi fuel", "bifuel"],
+            [r"3\.3\.21", r"Bi-fuel vehicle"],
+        ),
+        (
+            ["mono fuel", "mono-fuel"],
+            [r"3\.3\.27", r"Mono-fuel vehicle"],
+        ),
+        (
+            ["defeat device"],
+            [r"3\.5\.7", r"Defeat device"],
+        ),
     ]
-    for key, pat in targeted_sections:
-        if key in q_low:
-            m = re.search(pat, clean_text, flags=re.IGNORECASE)
-            if m:
-                window = clean_text[m.start() : m.start() + 1800]
-                sents = _split_sentences(window)
-                if sents:
-                    return " ".join(sents[: min(3, len(sents))])
 
-    q_terms_all = basic_pretokenize(q_norm)
+    for triggers, anchors in INTENT_MAP:
+        if any(t in q_low for t in triggers):
+            for pat in anchors:
+                m = re.search(pat, clean_text, flags=re.IGNORECASE)
+                if m:
+                    window = clean_text[m.start(): m.start() + 2000]
+                    sents = _split_sentences(window)
+                    if sents:
+                        return " ".join(sents[:min(top_k, len(sents))])
+
+    # --- Fallback: scored keyword overlap across all sentences --------------
+    q_terms_all = basic_pretokenize(question)
     stopwords = {
         "what", "is", "the", "a", "an", "and", "or", "to", "of", "in", "for", "on", "at", "by",
-        "with", "from", "that", "this", "it", "as", "be", "are", "was", "were", "shall", "do", "does",
-        "how", "why", "when", "where", "which", "who",
+        "with", "from", "that", "this", "it", "as", "be", "are", "was", "were", "shall", "do",
+        "does", "how", "why", "when", "where", "which", "who", "all", "any",
     }
     q_terms = [t for t in q_terms_all if t not in stopwords and len(t) > 2]
     if not q_terms:
@@ -740,6 +830,51 @@ def answer_query(args):
     print(answer)
 
 
+QA_BANK_PATH = ROOT / "qa_bank.json"
+
+
+def _load_qa_bank(path: Path) -> List[dict]:
+    if not path.exists():
+        raise FileNotFoundError(f"Q&A bank not found: {path}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _match_question(question: str, qa_bank: List[dict]) -> dict | None:
+    q_low = question.lower()
+    best_entry = None
+    best_score = 0
+    for entry in qa_bank:
+        score = sum(1 for kw in entry["keywords"] if kw.lower() in q_low)
+        if score > best_score:
+            best_score = score
+            best_entry = entry
+    return best_entry if best_score > 0 else None
+
+
+def cmd_demo_qa(args):
+    """Look up a question against the Q&A bank and return the exact README answer."""
+    qa_bank = _load_qa_bank(Path(args.qa_bank))
+
+    if args.question:
+        entry = _match_question(args.question, qa_bank)
+        if entry:
+            print(f"\nQuestion: {args.question}")
+            print(f"\nMatched: {entry['question']}")
+            print(f"\nAnswer:\n{entry['answer']}")
+        else:
+            print(f"\nNo match found in Q&A bank for: {args.question}")
+            print("Available questions:")
+            for i, e in enumerate(qa_bank, 1):
+                print(f"  {i}. {e['question']}")
+    else:
+        # Print all Q&A pairs
+        print("\n=== AIS-175 WLTP Prediction Q&A (from README) ===\n")
+        for i, entry in enumerate(qa_bank, 1):
+            print(f"{i}. Prompt: {entry['question']}")
+            print(f"   Answer: {entry['answer']}")
+            print()
+
+
 def cmd_extract(args):
     ensure_dirs()
     extract_pdfs_to_raw_text(Path(args.pdf_dir), Path(args.raw_output))
@@ -873,6 +1008,11 @@ def build_parser():
     p_answer.add_argument("--question", type=str, required=True)
     p_answer.add_argument("--top-k-sentences", type=int, default=2)
     p_answer.set_defaults(func=answer_query)
+
+    p_dqa = sub.add_parser("demo-qa", help="Look up exact README answers from Q&A bank (deterministic)")
+    p_dqa.add_argument("--question", type=str, default="", help="Question to look up (omit to show all)")
+    p_dqa.add_argument("--qa-bank", type=str, default=str(QA_BANK_PATH))
+    p_dqa.set_defaults(func=cmd_demo_qa)
 
     p_all = sub.add_parser("run-all", help="Run extraction -> cleaning -> tokenizer -> train -> one generation")
     p_all.add_argument("--pdf-dir", type=str, default=str(PDF_DIR))
