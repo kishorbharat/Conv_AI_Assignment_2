@@ -325,20 +325,36 @@ Include these sections in your notebook:
 
 The following predictions were generated from the AIS-175 WLTP corpus after training.
 
-1. Prompt: Summarise AIS 175 Standard in 100 words
-	Generated Answer: AIS 175 is an Indian Automotive Industry Standard that establishes the test method, testing equipment, and procedures for type approval, Conformity of Production (COP), and In-Service Conformity (ISC) testing under the Worldwide harmonized Light vehicle Test Procedure (WLTP). It applies to M1, M2, and N1 category vehicles with a GVW not exceeding 3,500 kg. The standard covers Type I (emissions), Type II (idle), Type III (crankcase), Type IV (evaporative), and Type V (durability) tests, along with OBD, Real Driving Emissions (RDE), and gear-shift procedures. It is aligned with UN GTR 15 Amendment 6 and adopted by India under CMV Rules 115, 116, and 126.
+1. **Prompt:** Summarise AIS 175 Standard in 100 words
 
-2. Prompt: What is Roadload Family?
-	Generated Answer: A Road Load Family (defined in paragraph 6.3.3) is a group of vehicles that are identical with respect to: (a) transmission type and model (e.g. manual, automatic, CVT); (b) n/v ratios (engine speed divided by vehicle speed), with a tolerance within 25 per cent of the most commonly installed type; and (c) number of powered axles. Vehicles sharing the same road load family can use a single coastdown measurement to derive road load coefficients for all members, avoiding the need to test every variant individually on the road.
+   **Generated Answer:** AIS 175 is an Indian Automotive Industry Standard that establishes the test method, testing equipment, and procedures for type approval, Conformity of Production (COP), and In-Service Conformity (ISC) testing under the Worldwide harmonized Light vehicle Test Procedure (WLTP). It applies to M1, M2, and N1 category vehicles with a GVW not exceeding 3,500 kg. The standard covers Type I (emissions), Type II (idle), Type III (crankcase), Type IV (evaporative), and Type V (durability) tests, along with OBD, Real Driving Emissions (RDE), and gear-shift procedures. It is aligned with UN GTR 15 Amendment 6 and adopted by India under CMV Rules 115, 116, and 126.
 
-3. Prompt: What is Interpolation Family?
-	Generated Answer: An Interpolation Family (defined in paragraph 6.3.2) is a group of vehicles between which CO2 emissions and fuel consumption can be mathematically interpolated using two boundary vehicles — Vehicle High (H) and Vehicle Low (L). For pure ICE vehicles, all members must be identical in: (a) ICE fuel type, combustion process, engine capacity, and charging system; (b) CO2-influencing powertrain operation strategy; (c) transmission type and model; (d) n/v ratios within 8 per cent; and (e) number of powered axles. Separate sub-families apply for NOVC-HEVs, OVC-HEVs, PEVs, and FCHVs, each with additional criteria covering electric machine type, REESS, and energy converter characteristics.
+---
 
-4. Prompt: Which type of passenger cars are covered in this standard?
-	Generated Answer: AIS 175 covers all vehicles of category M1 (passenger cars), and also M2 and N1 category vehicles whose technically permissible maximum laden mass does not exceed 3,500 kg. The standard applies to these vehicles for the WLTP Type I test (gaseous and particulate emissions, CO2, fuel efficiency, electric energy consumption, and electric range) and the Type IV evaporative emissions test. In addition, it lays down rules for Type II, III, V, OBD, RDE, COP, and ISC tests for the covered vehicle categories.
+2. **Prompt:** What is Roadload Family?
 
-5. Prompt: What are criteria for including new vehicle in interpolation family?
-	Generated Answer: Under paragraph 6.3.2.1.2, a new vehicle may join an existing interpolation family only if it is identical to all current members with respect to: (a) ICE type — fuel type, combustion process, engine capacity, full-load characteristics, engine technology, and charging system; (b) operation strategy of all CO2-influencing powertrain components; (c) transmission type and model; (d) n/v ratios within 8 per cent of the most commonly installed transmission; and (e) number of powered axles. Additionally, any alternative parameter (e.g. higher nmin_drive or ASM) used within the family must remain the same for the new vehicle.
+   **Generated Answer:** A Road Load Family (defined in paragraph 6.3.3) is a group of vehicles that are identical with respect to: (a) transmission type and model (e.g. manual, automatic, CVT); (b) n/v ratios (engine speed divided by vehicle speed), with a tolerance within 25 per cent of the most commonly installed type; and (c) number of powered axles. Vehicles sharing the same road load family can use a single coastdown measurement to derive road load coefficients for all members, avoiding the need to test every variant individually on the road.
 
-6. Prompt: Do this standard cover Flex Fuel vehicles? explain in short
-	Generated Answer: Yes. AIS 175 explicitly covers Flex Fuel vehicles. Paragraph 3.3.25 defines a Flex Fuel Vehicle as one with a single fuel storage system capable of running on different mixtures of two or more fuels, and paragraph 3.3.26 defines the Flex Fuel Ethanol Vehicle sub-type (petrol/ethanol blends up to E85). Section 5.8 contains dedicated additional requirements for type approval of flex fuel ethanol and biodiesel vehicles, including the requirement that the vehicle can adapt to any fuel mixture available in the market, and that no manual engine re-adjustment is needed during fuel transition between reference fuels (paragraph 5.8.2). The interpolation family criteria in 6.3.2.1.2(a) also explicitly reference flex-fuel and bi-fuel fuel types.
+---
+
+3. **Prompt:** What is Interpolation Family?
+
+   **Generated Answer:** An Interpolation Family (defined in paragraph 6.3.2) is a group of vehicles between which CO2 emissions and fuel consumption can be mathematically interpolated using two boundary vehicles — Vehicle High (H) and Vehicle Low (L). For pure ICE vehicles, all members must be identical in: (a) ICE fuel type, combustion process, engine capacity, and charging system; (b) CO2-influencing powertrain operation strategy; (c) transmission type and model; (d) n/v ratios within 8 per cent; and (e) number of powered axles. Separate sub-families apply for NOVC-HEVs, OVC-HEVs, PEVs, and FCHVs, each with additional criteria covering electric machine type, REESS, and energy converter characteristics.
+
+---
+
+4. **Prompt:** Which type of passenger cars are covered in this standard?
+
+   **Generated Answer:** AIS 175 covers all vehicles of category M1 (passenger cars), and also M2 and N1 category vehicles whose technically permissible maximum laden mass does not exceed 3,500 kg. The standard applies to these vehicles for the WLTP Type I test (gaseous and particulate emissions, CO2, fuel efficiency, electric energy consumption, and electric range) and the Type IV evaporative emissions test. In addition, it lays down rules for Type II, III, V, OBD, RDE, COP, and ISC tests for the covered vehicle categories.
+
+---
+
+5. **Prompt:** What are criteria for including new vehicle in interpolation family?
+
+   **Generated Answer:** Under paragraph 6.3.2.1.2, a new vehicle may join an existing interpolation family only if it is identical to all current members with respect to: (a) ICE type — fuel type, combustion process, engine capacity, full-load characteristics, engine technology, and charging system; (b) operation strategy of all CO2-influencing powertrain components; (c) transmission type and model; (d) n/v ratios within 8 per cent of the most commonly installed transmission; and (e) number of powered axles. Additionally, any alternative parameter (e.g. higher nmin_drive or ASM) used within the family must remain the same for the new vehicle.
+
+---
+
+6. **Prompt:** Do this standard cover Flex Fuel vehicles? explain in short
+
+   **Generated Answer:** Yes. AIS 175 explicitly covers Flex Fuel vehicles. Paragraph 3.3.25 defines a Flex Fuel Vehicle as one with a single fuel storage system capable of running on different mixtures of two or more fuels, and paragraph 3.3.26 defines the Flex Fuel Ethanol Vehicle sub-type (petrol/ethanol blends up to E85). Section 5.8 contains dedicated additional requirements for type approval of flex fuel ethanol and biodiesel vehicles, including the requirement that the vehicle can adapt to any fuel mixture available in the market, and that no manual engine re-adjustment is needed during fuel transition between reference fuels (paragraph 5.8.2). The interpolation family criteria in 6.3.2.1.2(a) also explicitly reference flex-fuel and bi-fuel fuel types.
