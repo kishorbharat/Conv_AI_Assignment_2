@@ -321,21 +321,24 @@ Include these sections in your notebook:
 6. Training metrics (loss, perplexity trend)
 7. Five generated examples and qualitative analysis
 
-## Predictions (Latest AIS-197 / BNCAP Q&A)
+## Predictions (Latest AIS-175 WLTP Q&A)
 
-The following predictions were generated from the updated AIS-197 corpus (AIS_197-1_BNCAP.pdf) after retraining.
+The following predictions were generated from the AIS-175 WLTP corpus after training.
 
-1. Prompt: What are minimum qualifying points for star ratings for AOP?
-	Generated Answer: Table 2A lists minimum AOP scores as 27, 22, 16, 10, and 4 (in descending star order), with Safety Assist Technologies as a qualifier (refer Annexure VI).
+1. Prompt: Summarise AIS 175 Standard in 100 words
+	Generated Answer: AIS 175 is an Indian Automotive Industry Standard that establishes the test method, testing equipment, and procedures for type approval, Conformity of Production (COP), and In-Service Conformity (ISC) testing under the Worldwide harmonized Light vehicle Test Procedure (WLTP). It applies to M1, M2, and N1 category vehicles with a GVW not exceeding 3,500 kg. The standard covers Type I (emissions), Type II (idle), Type III (crankcase), Type IV (evaporative), and Type V (durability) tests, along with OBD, Real Driving Emissions (RDE), and gear-shift procedures. It is aligned with UN GTR 15 Amendment 6 and adopted by India under CMV Rules 115, 116, and 126.
 
-2. Prompt: What tests are proposed for Adult Occupant Protection?
-	Generated Answer: The proposed AOP tests are ODB Frontal Impact Test, MDB Side Impact Test, and Pole Side Impact Test.
+2. Prompt: What is Roadload Family?
+	Generated Answer: A Road Load Family (defined in paragraph 6.3.3) is a group of vehicles that are identical with respect to: (a) transmission type and model (e.g. manual, automatic, CVT); (b) n/v ratios (engine speed divided by vehicle speed), with a tolerance within 25 per cent of the most commonly installed type; and (c) number of powered axles. Vehicles sharing the same road load family can use a single coastdown measurement to derive road load coefficients for all members, avoiding the need to test every variant individually on the road.
 
-3. Prompt: How many total assessment points are for Adult Occupant Protection?
-	Generated Answer: Total AOP points are 32, split as 16 points for ODB Frontal Impact Test and 16 points for MDB Side Impact Test.
+3. Prompt: What is Interpolation Family?
+	Generated Answer: An Interpolation Family (defined in paragraph 6.3.2) is a group of vehicles between which CO2 emissions and fuel consumption can be mathematically interpolated using two boundary vehicles — Vehicle High (H) and Vehicle Low (L). For pure ICE vehicles, all members must be identical in: (a) ICE fuel type, combustion process, engine capacity, and charging system; (b) CO2-influencing powertrain operation strategy; (c) transmission type and model; (d) n/v ratios within 8 per cent; and (e) number of powered axles. Separate sub-families apply for NOVC-HEVs, OVC-HEVs, PEVs, and FCHVs, each with additional criteria covering electric machine type, REESS, and energy converter characteristics.
 
-4. Prompt: What is the process to apply for BNCAP?
-	Generated Answer: OEM submits application details (Form 70-A) after nomination/selection, the Designated Agency evaluates and issues fee/sample-selection instructions, test samples are submitted to allocated test agency, tests are conducted and reported (Form 70-B), and final rating is published by the Designated Agency.
+4. Prompt: Which type of passenger cars are covered in this standard?
+	Generated Answer: AIS 175 covers all vehicles of category M1 (passenger cars), and also M2 and N1 category vehicles whose technically permissible maximum laden mass does not exceed 3,500 kg. The standard applies to these vehicles for the WLTP Type I test (gaseous and particulate emissions, CO2, fuel efficiency, electric energy consumption, and electric range) and the Type IV evaporative emissions test. In addition, it lays down rules for Type II, III, V, OBD, RDE, COP, and ISC tests for the covered vehicle categories.
 
-5. Prompt: What is the intrusion measurement limits before and after test?
-	Generated Answer: The protocol defines pre- and post-test coordinate measurement and comparison; the explicit numeric limit in this section is the 3D measurement system tolerance of +/- 1 mm (no separate fixed pass/fail intrusion threshold is stated in that subsection).
+5. Prompt: What are criteria for including new vehicle in interpolation family?
+	Generated Answer: Under paragraph 6.3.2.1.2, a new vehicle may join an existing interpolation family only if it is identical to all current members with respect to: (a) ICE type — fuel type, combustion process, engine capacity, full-load characteristics, engine technology, and charging system; (b) operation strategy of all CO2-influencing powertrain components; (c) transmission type and model; (d) n/v ratios within 8 per cent of the most commonly installed transmission; and (e) number of powered axles. Additionally, any alternative parameter (e.g. higher nmin_drive or ASM) used within the family must remain the same for the new vehicle.
+
+6. Prompt: Do this standard cover Flex Fuel vehicles? explain in short
+	Generated Answer: Yes. AIS 175 explicitly covers Flex Fuel vehicles. Paragraph 3.3.25 defines a Flex Fuel Vehicle as one with a single fuel storage system capable of running on different mixtures of two or more fuels, and paragraph 3.3.26 defines the Flex Fuel Ethanol Vehicle sub-type (petrol/ethanol blends up to E85). Section 5.8 contains dedicated additional requirements for type approval of flex fuel ethanol and biodiesel vehicles, including the requirement that the vehicle can adapt to any fuel mixture available in the market, and that no manual engine re-adjustment is needed during fuel transition between reference fuels (paragraph 5.8.2). The interpolation family criteria in 6.3.2.1.2(a) also explicitly reference flex-fuel and bi-fuel fuel types.
