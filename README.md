@@ -22,10 +22,10 @@ Conv_AI_Group_Assignment/
 │   └── run_rag_terminal.py
 ├── data/
 │   ├── pdfs/
-│   │   └── AIS_197-1_BNCAP.pdf
+│   │   └── AIS_175_Final_Draft_MARCH_2025.pdf
 │   └── processed/
-│       ├── ais197_raw.txt
-│       └── ais197_clean.txt
+│       ├── ais175_raw.txt
+│       └── ais175_clean.txt
 ├── tokenizer/
 │   ├── vocab.json
 │   └── merges.txt
@@ -72,8 +72,8 @@ Inputs:
 
 Outputs:
 
-- Raw extracted text: [data/processed/ais197_raw.txt](data/processed/ais197_raw.txt)
-- Cleaned corpus text: [data/processed/ais197_clean.txt](data/processed/ais197_clean.txt)
+- Raw extracted text: [data/processed/ais175_raw.txt](data/processed/ais175_raw.txt)
+- Cleaned corpus text: [data/processed/ais175_clean.txt](data/processed/ais175_clean.txt)
 
 How cleaning works:
 
@@ -103,7 +103,7 @@ Code components:
 
 Inputs:
 
-- Clean corpus: [data/processed/ais197_clean.txt](data/processed/ais197_clean.txt)
+- Clean corpus: [data/processed/ais175_clean.txt](data/processed/ais175_clean.txt)
 
 Outputs:
 
