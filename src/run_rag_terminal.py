@@ -356,6 +356,19 @@ def answer_from_corpus(question: str, clean_text: str, top_k: int = 3) -> str:
             [r"1\.0\s+SCOPE", r"This Regulation applies to the type approval"],
         ),
         (
+            # Tests / procedures performed for a road load family
+            ["tests included in road", "tests in road load", "tests for road load",
+             "road load test", "road load procedure", "road load determination",
+             "how is road load determined", "methods for road load",
+             "different tests", "coastdown", "wind tunnel", "torque meter",
+             "running resistance"],
+            [
+                r"the road load of the representative vehicle is determined",
+                r"coastdown method.*paragraph",
+                r"road loads HR.*shall be determined",
+            ],
+        ),
+        (
             ["road load family", "roadload family", "roadload"],
             [r"6\.3\.3\s+Road load family", r"Road load family"],
         ),
