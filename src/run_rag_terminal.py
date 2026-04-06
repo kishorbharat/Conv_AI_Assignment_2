@@ -295,6 +295,47 @@ def _split_sentences(text: str) -> List[str]:
     return [s.strip() for s in sents if s.strip()]
 
 
+def _extract_references(text: str) -> List[str]:
+    """Extract paragraph/annex/appendix reference strings from a block of text."""
+    refs: List[str] = []
+    # paragraph X.X.X (with optional trailing dot)
+    refs += re.findall(r"\bparagraph\s+\d[\d.]*", text, flags=re.IGNORECASE)
+    # clause X.X.X
+    refs += re.findall(r"\bclause\s+\d[\d.]*", text, flags=re.IGNORECASE)
+    # Annex B2 / Annex C6 / Annex B / Annex C, etc.
+    refs += re.findall(r"\bAnnex\s+[A-Z]\d*", text, flags=re.IGNORECASE)
+    # Appendix N (standalone digit)
+    refs += re.findall(r"\bAppendix\s+\d+", text, flags=re.IGNORECASE)
+    # section X.X
+    refs += re.findall(r"\bsection\s+\d[\d.]*", text, flags=re.IGNORECASE)
+    # deduplicate while preserving order
+    seen: set = set()
+    unique: List[str] = []
+    for r in refs:
+        key = r.strip().lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(r.strip())
+    return unique
+
+
+def _fetch_section_content(ref: str, clean_text: str, window: int = 600) -> str:
+    """Return a short excerpt from the corpus that starts at the cited reference."""
+    # Build a search pattern from the reference string:
+    # e.g. "paragraph 4.3" -> r"\bparagraph\s+4\.3\b"
+    # e.g. "Annex C6" -> r"\bAnnex\s+C6\b"
+    escaped = re.escape(ref)
+    # Allow flexible whitespace between word and number
+    pat = re.sub(r"\\ ", r"\\s+", escaped)
+    m = re.search(pat, clean_text, flags=re.IGNORECASE)
+    if not m:
+        return ""
+    snippet = clean_text[m.start(): m.start() + window]
+    # Return first 3 sentences for readability
+    sents = _split_sentences(snippet)
+    return " ".join(sents[:3]) if sents else snippet[:window]
+
+
 def answer_from_corpus(question: str, clean_text: str, top_k: int = 3) -> str:
     """Return a readable extractive answer from corpus sentences for factual queries.
 
@@ -828,6 +869,17 @@ def answer_query(args):
     print(args.question)
     print("\nAnswer (extractive):")
     print(answer)
+
+    # --- Follow referenced paragraphs / annexes / appendices ----------------
+    refs = _extract_references(answer)
+    if refs:
+        print("\n--- Referenced Sections (fetched from corpus) ---")
+        for ref in refs:
+            snippet = _fetch_section_content(ref, text)
+            if snippet:
+                print(f"\n[{ref}]")
+                print(snippet)
+        print("-" * 50)
 
 
 QA_BANK_PATH = ROOT / "qa_bank.json"
