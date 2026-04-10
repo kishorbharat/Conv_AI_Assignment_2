@@ -307,9 +307,9 @@ Upload the video to Microsoft Stream (on SharePoint) and submit the shared link.
 
 Use this submission format:
 
-- Microsoft Stream Link: `<paste-share-link-here>`
+- Microsoft Stream Link: `https://wilpbitspilaniacin0-my.sharepoint.com/:v:/g/personal/2024tm05027_wilp_bits-pilani_ac_in/IQCKdE1gMyS1TpbGE_GjqE8IAesDsSLMyqs3sYW4BodsFMo?e=6ebJ8I`
 - Access: `Anyone with university access can view`
-- Duration: `<video-length>`
+- Duration: `9 min`
 
 ## Notes for Final Report / Notebook Write-up
 
