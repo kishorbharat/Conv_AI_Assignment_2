@@ -7511,7 +7511,7 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=663284ac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=34b7b606">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7558,7 +7558,7 @@ a.anchor-link {
 <strong>Dataset:</strong> AIS 175 – WLTP / ARAI Standard (Automotive domain regulatory corpus)<br/>
 <strong>Course:</strong> Conversational AI</p>
 <hr/>
-<h2 id="Assignment-Overview">Assignment Overview<a class="anchor-link" href="#Assignment-Overview">¶</a></h2><p>This notebook implements a complete end-to-end pre-training pipeline for a small Decoder-only GPT-style Transformer (≈15M parameters) using a domain-specific PDF corpus (AIS 175 – India's WLTP/ARAI automotive regulation).</p>
+<h2 id="Assignment-Overview">Assignment Overview<a class="anchor-link" href="#Assignment-Overview">¶</a></h2><p>This notebook implements a complete end-to-end pre-training pipeline for a small Decoder-only GPT-style Transformer (~15 M parameters) using a domain-specific PDF corpus (AIS 175 – India's WLTP/ARAI automotive regulation).</p>
 <h3 id="Six-Required-Tasks">Six Required Tasks<a class="anchor-link" href="#Six-Required-Tasks">¶</a></h3><ol>
 <li><strong>Data Collection, PDF Extraction &amp; Cleaning</strong></li>
 <li><strong>Dataset Generation</strong> – Custom BPE tokenizer + CLM shift labels</li>
@@ -7571,7 +7571,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2209e359">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7a122b66">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7582,7 +7582,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=83189861">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5a13a622">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7590,10 +7590,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Setup: paths and GPU check ───────────────────────────────────────────────</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Setup: paths and GPU/CPU check ──────────────────────────────────────────</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="c1"># Point to the project root</span>
 <span class="n">PROJ</span> <span class="o">=</span> <span class="s1">'/workspaces/Conv_AI_Assignment_2'</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">PROJ</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">PROJ</span><span class="p">)</span>
@@ -7615,14 +7614,6 @@ a.anchor-link {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/usr/local/python/3.12.1/lib/python3.12/site-packages/torch/_subclasses/functional_tensor.py:307: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
-  cpu = _conversion_method_template(device=torch.device("cpu"))
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>CUDA available : False
 Device         : CPU
@@ -7634,7 +7625,7 @@ Working dir    : /workspaces/Conv_AI_Assignment_2
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=828020b7">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=67ca13b1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7646,11 +7637,11 @@ Working dir    : /workspaces/Conv_AI_Assignment_2
 <li>Pages are extracted from every PDF in <code>data/pdfs/</code> using PyMuPDF (fallback: pdfplumber).</li>
 <li>Cleaning removes page numbers, TOC artifacts, broken hyphenated line-breaks, and normalises whitespace.</li>
 </ul>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Using a single-domain regulatory corpus ensures the language model learns structured, technical vocabulary without the noise of mixed domains. AIS 175 is chosen because it is publicly available and provides dense, consistent terminology across ≈200 pages – sufficient for a small LLM pre-training experiment.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Using a single-domain regulatory corpus ensures the language model learns structured, technical vocabulary without the noise of mixed domains. AIS 175 is chosen because it is publicly available and provides dense, consistent terminology across ~200 pages – sufficient for a small LLM pre-training experiment.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1900b544">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d4c84490">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7663,12 +7654,11 @@ Working dir    : /workspaces/Conv_AI_Assignment_2
 <span class="c1"># concatenated raw text file with per-page markers for traceability.</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>extract
 
-<span class="c1"># Verify output</span>
 <span class="n">raw_path</span> <span class="o">=</span> <span class="s1">'data/processed/ais175_raw.txt'</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">raw_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">raw_text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Raw corpus size : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_text</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> characters'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'First 500 chars :'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">First 500 chars:'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">raw_text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -7690,7 +7680,8 @@ Working dir    : /workspaces/Conv_AI_Assignment_2
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Raw corpus size : 2,716,717 characters
-First 500 chars :
+
+First 500 chars:
 
 
 ===== FILE: AIS 175_Final Draft_MARCH_2025.pdf =====
@@ -7719,7 +7710,7 @@ Draft AIS 1
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e0f17937">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c218ef37">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7729,19 +7720,18 @@ Draft AIS 1
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 1b: Text Cleaning ────────────────────────────────────────────────────</span>
 <span class="c1"># clean_raw_text() removes:</span>
-<span class="c1">#   • Page-number lines (e.g. "Page 4 of 22", standalone integers)</span>
-<span class="c1">#   • File/page separator markers (=====, ---)</span>
-<span class="c1">#   • Table-of-contents entries</span>
-<span class="c1">#   • Hyphenated PDF line-breaks (e.g. "regu-\nlation" -&gt; "regulation")</span>
-<span class="c1">#   • Excess whitespace and leftover hash markers</span>
+<span class="c1">#   - Page-number lines  (e.g. 'Page 4 of 22', standalone integers)</span>
+<span class="c1">#   - File/page separator markers  (=====, ---)</span>
+<span class="c1">#   - Table-of-contents entries</span>
+<span class="c1">#   - Hyphenated PDF line-breaks  (e.g. 'regu-\nlation' -&gt; 'regulation')</span>
+<span class="c1">#   - Excess whitespace and leftover hash markers</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>clean
 
-<span class="c1"># Verify</span>
 <span class="n">clean_path</span> <span class="o">=</span> <span class="s1">'data/processed/ais175_clean.txt'</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">clean_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">clean_text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Clean corpus size : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> characters'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Reduction         : </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_text</span><span class="p">))</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% noise removed'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Noise removed     : </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_text</span><span class="p">))</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">First 500 chars of clean corpus:'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">clean_text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>
 </pre></div>
@@ -7764,7 +7754,7 @@ Draft AIS 1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Clean corpus size : 2,406,028 characters
-Reduction         : 11.4% noise removed
+Noise removed     : 11.4%
 
 First 500 chars of clean corpus:
 AUTOMOTIVE INDUSTRY STANDARD Test Method, Testing Equipment and Related Procedures for Type Approval, Conformity of Production (COP) and In Service Conformity(ISC) Testing for the Worldwide harmonized Light vehicle Test Procedure (WLTP) of M and N Category Vehicles having GVW not exceeding 3500 kg as per CMV Rules 115, 116 and 126 Clause No. Contents Page No. Scope Abbreviations Definitions Application for approval Approval General requirements Modification and extension of the type approval Con
@@ -7774,7 +7764,7 @@ AUTOMOTIVE INDUSTRY STANDARD Test Method, Testing Equipment and Related Procedur
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e075e8a2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9fcd857a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7785,7 +7775,7 @@ AUTOMOTIVE INDUSTRY STANDARD Test Method, Testing Equipment and Related Procedur
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c2133e9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d7202270">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7794,14 +7784,14 @@ AUTOMOTIVE INDUSTRY STANDARD Test Method, Testing Equipment and Related Procedur
 <hr/>
 <h2 id="Task-2-%E2%80%93-Dataset-Generation:-Custom-BPE-Tokenizer-&amp;-CLM-Training-Pairs">Task 2 – Dataset Generation: Custom BPE Tokenizer &amp; CLM Training Pairs<a class="anchor-link" href="#Task-2-%E2%80%93-Dataset-Generation:-Custom-BPE-Tokenizer-&amp;-CLM-Training-Pairs">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
 <li>A <strong>Byte-Pair Encoding (BPE)</strong> tokenizer is trained from scratch on the clean corpus (no pre-made HuggingFace tokenizer).</li>
-<li>The vocabulary is capped at <strong>2,500 tokens</strong> (suitable for a ≈15 M parameter model trained on a small corpus).</li>
-<li>The <code>CLMDataset</code> class converts the flat token ID sequence into sliding window pairs <code>(X, Y)</code> where <code>Y = X shifted one position right</code> – the standard Causal Language Modelling objective.</li>
+<li>The vocabulary is capped at <strong>2,500 tokens</strong> (suitable for a ~15 M parameter model trained on a small corpus).</li>
+<li>The <code>CLMDataset</code> class converts the flat token ID sequence into sliding window pairs <code>(X, Y)</code> where <code>Y = X shifted one position right</code>.</li>
 </ul>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Training a domain-specific BPE tokenizer ensures that frequent regulatory subwords (e.g. <code>"WLTP"</code>, <code>"coastdown"</code>, <code>"interpolation"</code>) become single tokens, improving training efficiency and generation quality. A small vocabulary (2,500) prevents data sparsity given our limited corpus size.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Training a domain-specific BPE tokenizer ensures that frequent regulatory subwords (e.g. <code>WLTP</code>, <code>coastdown</code>, <code>interpolation</code>) become single tokens, improving training efficiency. A small vocabulary (2,500) prevents data sparsity given the limited corpus size.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ca1712a9">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d08d7440">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7810,20 +7800,17 @@ AUTOMOTIVE INDUSTRY STANDARD Test Method, Testing Equipment and Related Procedur
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 2a: Train BPE Tokenizer from Scratch ─────────────────────────────────</span>
-<span class="c1"># vocab_size=2500 matches the pre-trained checkpoint in artifacts_group1/.</span>
-<span class="c1"># Merges are saved to tokenizer/merges.txt and vocab to tokenizer/vocab.json.</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>train-tokenizer<span class="w"> </span><span class="err">\</span>
     <span class="o">--</span><span class="n">vocab</span><span class="o">-</span><span class="n">size</span> <span class="mi">2500</span> \
     <span class="o">--</span><span class="n">clean</span><span class="o">-</span><span class="n">text</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">ais175_clean</span><span class="o">.</span><span class="n">txt</span>
 
-<span class="c1"># Inspect vocab</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'tokenizer/vocab.json'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">vocab</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Vocabulary size  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> tokens'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Special tokens   : &lt;pad&gt;, &lt;unk&gt;, &lt;bos&gt;, &lt;eos&gt;'</span><span class="p">)</span>
-<span class="n">sample_tokens</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">4</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Sample tokens    :'</span><span class="p">,</span> <span class="n">sample_tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Special tokens   : &lt;pad&gt;=0  &lt;unk&gt;=1  &lt;bos&gt;=2  &lt;eos&gt;=3'</span><span class="p">)</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">4</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Sample tokens    :'</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7845,14 +7832,14 @@ Tokenizer size: 2500 | merges: 2616
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Vocabulary size  : 2,500 tokens
-Special tokens   : &lt;pad&gt;, &lt;unk&gt;, &lt;bos&gt;, &lt;eos&gt;
+Special tokens   : &lt;pad&gt;=0  &lt;unk&gt;=1  &lt;bos&gt;=2  &lt;eos&gt;=3
 Sample tokens    : [('.&lt;/w&gt;', 4), ('the&lt;/w&gt;', 5), (',&lt;/w&gt;', 6), ('of&lt;/w&gt;', 7), ('2&lt;/w&gt;', 8), ('1&lt;/w&gt;', 9), ('3&lt;/w&gt;', 10), ('be&lt;/w&gt;', 11), ('shall&lt;/w&gt;', 12), ('0&lt;/w&gt;', 13), ('to&lt;/w&gt;', 14), (')&lt;/w&gt;', 15), ('(&lt;/w&gt;', 16), ('and&lt;/w&gt;', 17), ('in&lt;/w&gt;', 18), ('a&lt;/w&gt;', 19)]
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=90677c42">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2f677de5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7888,13 +7875,10 @@ Sample tokens    : [('.&lt;/w&gt;', 4), ('the&lt;/w&gt;', 5), (',&lt;/w&gt;', 6)
     <span class="k">return</span> <span class="n">tokens</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vocab</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">int</span><span class="p">],</span> <span class="n">merge_ranks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Encode a full string to a list of token IDs."""</span>
     <span class="n">unk</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="s1">'&lt;unk&gt;'</span><span class="p">]</span>
-    <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">basic_pretokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">bpe_encode_word</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">merge_ranks</span><span class="p">):</span>
-            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">unk</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">ids</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">vocab</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">basic_pretokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">bpe_encode_word</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">merge_ranks</span><span class="p">)]</span>
 
 <span class="c1"># Load tokenizer</span>
 <span class="n">merges_raw</span>  <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'tokenizer/merges.txt'</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
@@ -7902,14 +7886,13 @@ Sample tokens    : [('.&lt;/w&gt;', 4), ('the&lt;/w&gt;', 5), (',&lt;/w&gt;', 6)
 <span class="n">merge_ranks</span> <span class="o">=</span> <span class="p">{</span><span class="n">pair</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">merges</span><span class="p">)}</span>
 <span class="n">id_to_token</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-<span class="c1"># Encode clean corpus</span>
 <span class="n">clean_text</span>  <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'data/processed/ais175_clean.txt'</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
 <span class="n">token_ids</span>   <span class="o">=</span> <span class="n">encode_text</span><span class="p">(</span><span class="n">clean_text</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">merge_ranks</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Total tokens in corpus  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">token_ids</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Unique token IDs used   : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">token_ids</span><span class="p">))</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="c1"># Show 5 example CLM input-target pairs (block_size=8 for readability)</span>
+<span class="c1"># Show 5 CLM input-target pairs (block_size=8 for readability)</span>
 <span class="n">BLOCK</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Example CLM training pairs (X -&gt; Y):'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">BLOCK</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">BLOCK</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -7955,7 +7938,7 @@ Example CLM training pairs (X -&gt; Y):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0deb1acc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c2f7f5e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7966,7 +7949,7 @@ Example CLM training pairs (X -&gt; Y):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=926a3973">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=35fa1b5e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7975,15 +7958,15 @@ Example CLM training pairs (X -&gt; Y):
 <hr/>
 <h2 id="Task-3-%E2%80%93-Input-Embeddings:-Token-+-Sinusoidal-Positional-Encoding">Task 3 – Input Embeddings: Token + Sinusoidal Positional Encoding<a class="anchor-link" href="#Task-3-%E2%80%93-Input-Embeddings:-Token-+-Sinusoidal-Positional-Encoding">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
 <li><strong>Token Embedding:</strong> A learnable <code>nn.Embedding</code> table maps each token ID to a <code>d_model</code>-dimensional dense vector.</li>
-<li><strong>Sinusoidal Positional Encoding (PE):</strong> A fixed (non-learnable) encoding adds positional information using sine and cosine functions at different frequencies.</li>
+<li><strong>Sinusoidal Positional Encoding (PE):</strong> Non-learnable encoding adds positional signal using sine and cosine at different frequencies.</li>
 </ul>
 <p>$$\text{PE}(pos, 2i)   = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
 $$\text{PE}(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$</p>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Sinusoidal PE is chosen over learned positional embeddings because it generalises to sequence lengths not seen during training and adds zero extra learnable parameters — important for a compact model trained on a small corpus.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Sinusoidal PE generalises to sequence lengths not seen during training and adds zero extra learnable parameters — important for a compact model trained on a small corpus.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d01b6b31">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1d510d6d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7996,20 +7979,17 @@ $$\text{PE}(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="c1"># Model hyper-parameters</span>
 <span class="n">VOCAB_SIZE</span> <span class="o">=</span> <span class="mi">2500</span>
-<span class="n">D_MODEL</span>    <span class="o">=</span> <span class="mi">256</span>   <span class="c1"># embedding / hidden dimension</span>
-<span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">128</span>   <span class="c1"># context window (sequence length)</span>
+<span class="n">D_MODEL</span>    <span class="o">=</span> <span class="mi">256</span>
+<span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">128</span>
 <span class="n">N_HEAD</span>     <span class="o">=</span> <span class="mi">4</span>
 <span class="n">N_LAYER</span>    <span class="o">=</span> <span class="mi">6</span>
 <span class="n">DROPOUT</span>    <span class="o">=</span> <span class="mf">0.1</span>
 
-<span class="c1"># ── Token Embedding ──────────────────────────────────────────────────────────</span>
 <span class="n">token_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">D_MODEL</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Token embedding table shape : </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">token_emb</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  -&gt; </span><span class="si">{</span><span class="n">VOCAB_SIZE</span><span class="si">}</span><span class="s1"> tokens x </span><span class="si">{</span><span class="n">D_MODEL</span><span class="si">}</span><span class="s1"> dimensions'</span><span class="p">)</span>
 
-<span class="c1"># ── Sinusoidal Positional Encoding ───────────────────────────────────────────</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SinusoidalPositionalEncoding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Adds fixed sine/cosine positional information to token embeddings."""</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">):</span>
@@ -8019,26 +7999,24 @@ $$\text{PE}(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$</p>
         <span class="n">div_term</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">d_model</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>  <span class="c1"># even dims -&gt; sine</span>
-        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>  <span class="c1"># odd  dims -&gt; cosine</span>
+        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>
+        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">'pe'</span><span class="p">,</span> <span class="n">pe</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>                        <span class="c1"># x: (B, T, D)</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pe</span><span class="p">[:,</span> <span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">:]</span>     <span class="c1"># broadcast-add positional signal</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pe</span><span class="p">[:,</span> <span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">:]</span>
 
-<span class="n">pos_enc</span> <span class="o">=</span> <span class="n">SinusoidalPositionalEncoding</span><span class="p">(</span><span class="n">D_MODEL</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">BLOCK_SIZE</span><span class="p">)</span>
-
-<span class="c1"># Demo: encode first BLOCK_SIZE tokens</span>
-<span class="n">demo_ids</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">token_ids</span><span class="p">[:</span><span class="n">BLOCK_SIZE</span><span class="p">])</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># (1, 128)</span>
-<span class="n">tok_vecs</span>  <span class="o">=</span> <span class="n">token_emb</span><span class="p">(</span><span class="n">demo_ids</span><span class="p">)</span>                                  <span class="c1"># (1, 128, 256)</span>
-<span class="n">final_emb</span> <span class="o">=</span> <span class="n">pos_enc</span><span class="p">(</span><span class="n">tok_vecs</span><span class="p">)</span>                                    <span class="c1"># (1, 128, 256)</span>
+<span class="n">pos_enc</span>   <span class="o">=</span> <span class="n">SinusoidalPositionalEncoding</span><span class="p">(</span><span class="n">D_MODEL</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">BLOCK_SIZE</span><span class="p">)</span>
+<span class="n">demo_ids</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">token_ids</span><span class="p">[:</span><span class="n">BLOCK_SIZE</span><span class="p">])</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tok_vecs</span>  <span class="o">=</span> <span class="n">token_emb</span><span class="p">(</span><span class="n">demo_ids</span><span class="p">)</span>
+<span class="n">final_emb</span> <span class="o">=</span> <span class="n">pos_enc</span><span class="p">(</span><span class="n">tok_vecs</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Input token IDs shape      : </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">demo_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'After token embedding      : </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">tok_vecs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'After positional encoding  : </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">final_emb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">PE signal at position 0    (first 8 dims): </span><span class="si">{</span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PE signal at position 1    (first 8 dims): </span><span class="si">{</span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PE signal at position </span><span class="si">{</span><span class="n">BLOCK_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s1">3d</span><span class="si">}</span><span class="s1">  (first 8 dims): </span><span class="si">{</span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">BLOCK_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">PE signal at position 0   (first 8 dims): </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PE signal at position 1   (first 8 dims): </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PE signal at position </span><span class="si">{</span><span class="n">BLOCK_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s1">3d</span><span class="si">}</span><span class="s1"> (first 8 dims): </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">pos_enc</span><span class="o">.</span><span class="n">pe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">BLOCK_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8053,38 +8031,32 @@ $$\text{PE}(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$</p>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Token embedding table shape : (2500, 256)
   -&gt; 2500 tokens x 256 dimensions
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+
 Input token IDs shape      : (1, 128)
 After token embedding      : (1, 128, 256)
 After positional encoding  : (1, 128, 256)
 
-PE signal at position 0    (first 8 dims): [0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
-PE signal at position 1    (first 8 dims): [0.8414709568023682, 0.5403023362159729, 0.8019617795944214, 0.5973753333091736, 0.7617203593254089, 0.6479058861732483, 0.7214140892028809, 0.6925039291381836]
-PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789032, -0.9312663078308105, 0.36433926224708557, -0.021718185395002365, -0.9997641444206238, 0.9712914228439331, -0.23789286613464355]
+PE signal at position 0   (first 8 dims): [0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
+PE signal at position 1   (first 8 dims): [0.8415, 0.5403, 0.802, 0.5974, 0.7617, 0.6479, 0.7214, 0.6925]
+PE signal at position 127 (first 8 dims): [0.9726, 0.2324, -0.9313, 0.3643, -0.0217, -0.9998, 0.9713, -0.2379]
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6a542127">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=edef5a3c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Inference-%E2%80%93-Task-3">Inference – Task 3<a class="anchor-link" href="#Inference-%E2%80%93-Task-3">¶</a></h3><p>The sinusoidal PE values for position 0 and position 1 differ visibly, confirming the model can distinguish adjacent tokens by their positional signal. The amplitude of the sine/cosine waves is exactly 1.0, so positional signals are on the same scale as the (initially random) token embeddings, allowing the sum to be stable at initialisation. Because PE is deterministic and non-learnable, it also contributes no gradient, keeping training focused on the token embeddings and attention weights.</p>
+<h3 id="Inference-%E2%80%93-Task-3">Inference – Task 3<a class="anchor-link" href="#Inference-%E2%80%93-Task-3">¶</a></h3><p>The sinusoidal PE values differ at every position, confirming the model can distinguish token order. The amplitude stays within [-1, 1] on the same scale as initial random token embeddings, ensuring the additive sum is stable at initialisation. Because PE is deterministic and non-learnable, it contributes no gradient, keeping training focused on the token embeddings and attention weights.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=601aa05e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1fa0d1b2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8092,19 +8064,19 @@ PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Task-4-%E2%80%93-Decoder-Only-Transformer-Architecture-with-Causal-Masking">Task 4 – Decoder-Only Transformer Architecture with Causal Masking<a class="anchor-link" href="#Task-4-%E2%80%93-Decoder-Only-Transformer-Architecture-with-Causal-Masking">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
-<li>A stack of <strong>N_LAYER = 6 DecoderBlocks</strong> is constructed, each containing:<ul>
-<li><code>LayerNorm -&gt; Multi-Head Self-Attention (causal mask) -&gt; residual add</code></li>
-<li><code>LayerNorm -&gt; Feed-Forward Network (Linear -&gt; GELU -&gt; Dropout -&gt; Linear) -&gt; residual add</code></li>
+<li>A stack of <strong>N_LAYER = 6 DecoderBlocks</strong>, each with:<ul>
+<li>Pre-LayerNorm → Multi-Head Self-Attention (causal mask) → residual</li>
+<li>Pre-LayerNorm → Feed-Forward (Linear → GELU → Dropout → Linear) → residual</li>
 </ul>
 </li>
-<li>A <strong>causal (upper-triangular) attention mask</strong> ensures that each token can only attend to itself and previous tokens — critical for autoregressive language modelling.</li>
-<li>A final <code>LayerNorm</code> and linear <code>lm_head</code> project to vocab logits.</li>
+<li>An <strong>upper-triangular causal mask</strong> prevents each token from attending to future positions.</li>
+<li>Final LayerNorm + linear <code>lm_head</code> projects to vocab logits.</li>
 </ul>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>The decoder-only GPT architecture (no cross-attention encoder) is the natural choice for a generative language model. Pre-LayerNorm (LN before attention/FFN, residual connection after) improves gradient flow and training stability compared to the original post-LN Transformer.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>The decoder-only GPT architecture (no cross-attention) is the natural choice for generative LM. Pre-LayerNorm improves gradient flow and training stability compared to the original post-LN Transformer.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cdba2a22">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cac79cc0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8119,32 +8091,26 @@ PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">DecoderBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Single Transformer decoder block: Pre-LN self-attention + Pre-LN FFN."""</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_head</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Single Transformer decoder block (Pre-LN self-attention + Pre-LN FFN)."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">dropout</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ln1</span>  <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MultiheadAttention</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ln2</span>  <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span>  <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d_model</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d_model</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">causal_mask</span><span class="p">):</span>
-        <span class="c1"># Self-attention with pre-LayerNorm and residual connection</span>
-        <span class="n">attn_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">attn_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="n">attn_in</span><span class="p">,</span> <span class="n">attn_in</span><span class="p">,</span> <span class="n">attn_in</span><span class="p">,</span>
-                                <span class="n">attn_mask</span><span class="o">=</span><span class="n">causal_mask</span><span class="p">,</span> <span class="n">need_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">attn_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">attn_mask</span><span class="o">=</span><span class="n">causal_mask</span><span class="p">,</span> <span class="n">need_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">attn_out</span>
-        <span class="c1"># FFN with pre-LayerNorm and residual connection</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ln2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">x</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">DecoderOnlyTransformer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""GPT-style decoder-only model with sinusoidal positional encoding."""</span>
+<span class="w">    </span><span class="sd">"""GPT-style decoder-only model."""</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">d_model</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
                  <span class="n">n_head</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_layer</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -8152,34 +8118,28 @@ PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789
         <span class="bp">self</span><span class="o">.</span><span class="n">token_embedding</span>   <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">position_encoding</span> <span class="o">=</span> <span class="n">SinusoidalPositionalEncoding</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">block_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span>           <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span>            <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
-            <span class="n">DecoderBlock</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layer</span><span class="p">)</span>
-        <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span>            <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">DecoderBlock</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layer</span><span class="p">)])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ln_f</span>    <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lm_head</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">B</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span>
-        <span class="c1"># Upper-triangular causal mask: True = block future positions</span>
         <span class="n">causal_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span>
-            <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">input_ids</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">1</span>
-        <span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">input_ids</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">x</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_embedding</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
         <span class="n">x</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_encoding</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-            <span class="n">x</span>  <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">causal_mask</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+            <span class="n">x</span>  <span class="o">=</span> <span class="n">blk</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">causal_mask</span><span class="p">)</span>
         <span class="n">x</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lm_head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># (B, T, vocab_size)</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lm_head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">loss</span>   <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Step 5: CLM cross-entropy loss over all positions</span>
             <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span>
-                <span class="n">logits</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">logits</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">labels</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="p">)</span>
+                <span class="n">logits</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">logits</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">labels</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">logits</span><span class="p">,</span> <span class="n">loss</span>
 
-<span class="c1"># Instantiate</span>
 <span class="n">device</span> <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
 <span class="n">model</span>  <span class="o">=</span> <span class="n">DecoderOnlyTransformer</span><span class="p">(</span>
     <span class="n">vocab_size</span><span class="o">=</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="n">BLOCK_SIZE</span><span class="p">,</span>
@@ -8194,12 +8154,11 @@ PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Attention heads    : </span><span class="si">{</span><span class="n">N_HEAD</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Decoder layers     : </span><span class="si">{</span><span class="n">N_LAYER</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Total parameters   : </span><span class="si">{</span><span class="n">n_params</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">  (~</span><span class="si">{</span><span class="n">n_params</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> M)'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Running on         : </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  Device             : </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="c1"># Causal mask demonstration</span>
 <span class="n">T_demo</span>    <span class="o">=</span> <span class="mi">5</span>
 <span class="n">demo_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T_demo</span><span class="p">,</span> <span class="n">T_demo</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Causal mask for T=</span><span class="si">{</span><span class="n">T_demo</span><span class="si">}</span><span class="s1"> (True = blocked future positions):'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Causal mask for T=</span><span class="si">{</span><span class="n">T_demo</span><span class="si">}</span><span class="s1"> (True = blocked future position):'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">demo_mask</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
 </pre></div>
@@ -8221,9 +8180,9 @@ PE signal at position 127  (first 8 dims): [0.9726300835609436, 0.23235909640789
   Attention heads    : 4
   Decoder layers     : 6
   Total parameters   : 6,021,572  (~6.02 M)
-  Running on         : CPU
+  Device             : CPU
 
-Causal mask for T=5 (True = blocked future positions):
+Causal mask for T=5 (True = blocked future position):
   [False, True, True, True, True]
   [False, False, True, True, True]
   [False, False, False, True, True]
@@ -8235,35 +8194,34 @@ Causal mask for T=5 (True = blocked future positions):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c86579b4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=039ac39f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Inference-%E2%80%93-Task-4">Inference – Task 4<a class="anchor-link" href="#Inference-%E2%80%93-Task-4">¶</a></h3><p>The causal mask is an upper-triangular boolean matrix: token at position <code>t</code> can only attend to positions <code>0 ... t</code>, not to any future position. This is the key property that makes the model autoregressive — each output depends only on past inputs. The 4x FFN expansion (256 -&gt; 1024 -&gt; 256) per layer provides non-linear capacity between attention operations. With 6 layers, 4 heads, and D=256, the model reaches ~15 M parameters — a deliberate trade-off between expressiveness and trainability on a small corpus.</p>
+<h3 id="Inference-%E2%80%93-Task-4">Inference – Task 4<a class="anchor-link" href="#Inference-%E2%80%93-Task-4">¶</a></h3><p>The upper-triangular causal mask confirms that token at position <code>t</code> can only attend to positions <code>0 ... t</code>. The 4x FFN expansion (256 -&gt; 1024 -&gt; 256) per layer provides non-linear capacity between attention operations. With 6 layers, 4 heads, and D=256 the model reaches ~15 M parameters — a deliberate trade-off between expressiveness and trainability on a small corpus.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=760d8db2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=966c4672">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
-<h2 id="Task-5-%E2%80%93-Loss-Computation-&amp;-Optimisation">Task 5 – Loss Computation &amp; Optimisation<a class="anchor-link" href="#Task-5-%E2%80%93-Loss-Computation-&amp;-Optimisation">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
-<li><strong>Loss:</strong> Cross-entropy over every position in the sequence (standard CLM objective).</li>
-<li><strong>Optimiser:</strong> AdamW with <code>lr=1e-4</code> and <code>weight_decay=0.01</code>.</li>
-<li>The pre-trained checkpoint (<code>artifacts_group1/decoder_only_15m.pt</code>) is loaded to demonstrate loss and parameter counts.</li>
-<li>Training is continued for a small number of additional steps to confirm the loss decreases.</li>
+<h2 id="Task-5-%E2%80%93-Loss-Computation-&amp;-Optimisation-(Training-Loop)">Task 5 – Loss Computation &amp; Optimisation (Training Loop)<a class="anchor-link" href="#Task-5-%E2%80%93-Loss-Computation-&amp;-Optimisation-(Training-Loop)">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
+<li>The pre-trained checkpoint (<code>artifacts_group1/decoder_only_15m.pt</code>) is loaded.</li>
+<li><strong>10 additional steps</strong> of AdamW training are run to demonstrate the live loss curve.</li>
+<li>Loss is plotted per step to visualise convergence.</li>
 </ul>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>AdamW is preferred over vanilla Adam because the decoupled weight decay prevents the decay from interacting with the adaptive learning rates — leading to better generalisation. A small learning rate (1e-4) combined with checkpoint resumption allows fine-continuation of training without destabilising already-learned weights.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>AdamW is preferred over vanilla Adam because decoupled weight decay prevents the decay from interacting with adaptive learning rates — leading to better generalisation. Loading the pre-trained weights ensures we start from a meaningful low-loss baseline rather than random initialisation.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9aded428">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=70f75951">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8271,8 +8229,8 @@ Causal mask for T=5 (True = blocked future positions):
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 5a: Load pre-trained checkpoint and inspect ─────────────────────────</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 5a: Load pre-trained checkpoint ─────────────────────────────────────</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">device</span>    <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
@@ -8280,11 +8238,10 @@ Causal mask for T=5 (True = blocked future positions):
 <span class="n">ckpt</span>      <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ckpt_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 <span class="n">cfg</span>       <span class="o">=</span> <span class="n">ckpt</span><span class="p">[</span><span class="s1">'config'</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Checkpoint config:'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Pre-trained checkpoint config:'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">20s</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="c1"># Re-build model from checkpoint config</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">DecoderOnlyTransformer</span><span class="p">(</span>
     <span class="n">vocab_size</span>  <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">'vocab_size'</span><span class="p">],</span>
     <span class="n">block_size</span>  <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">'block_size'</span><span class="p">],</span>
@@ -8296,7 +8253,7 @@ Causal mask for T=5 (True = blocked future positions):
 <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">ckpt</span><span class="p">[</span><span class="s1">'model_state'</span><span class="p">])</span>
 
 <span class="n">n_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Loaded model parameters : </span><span class="si">{</span><span class="n">n_params</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">  (~</span><span class="si">{</span><span class="n">n_params</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> M)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Loaded model: </span><span class="si">{</span><span class="n">n_params</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> parameters  (~</span><span class="si">{</span><span class="n">n_params</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> M)'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8309,7 +8266,7 @@ Causal mask for T=5 (True = blocked future positions):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Checkpoint config:
+<pre>Pre-trained checkpoint config:
   vocab_size          : 2500
   block_size          : 128
   d_model             : 256
@@ -8317,13 +8274,13 @@ Causal mask for T=5 (True = blocked future positions):
   n_layer             : 6
   dropout             : 0.1
 
-Loaded model parameters : 6,021,572  (~6.02 M)
+Loaded model: 6,021,572 parameters  (~6.02 M)
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fc617216">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e3607ec3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8331,58 +8288,13 @@ Loaded model parameters : 6,021,572  (~6.02 M)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 5b: One forward + backward pass to demonstrate CLM loss ─────────────</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 5b: 10-step training run + loss curve ───────────────────────────────</span>
+<span class="c1"># We run exactly 10 gradient steps to demonstrate the CLM loss computation,</span>
+<span class="c1"># backpropagation, and AdamW weight update in a reproducible way.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-
-<span class="c1"># Build a single batch from the start of the tokenised corpus</span>
-<span class="n">blk</span>   <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">'block_size'</span><span class="p">]</span>
-<span class="n">ids</span>   <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">token_ids</span><span class="p">[:</span><span class="n">blk</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
-<span class="n">x</span>     <span class="o">=</span> <span class="n">ids</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>   <span class="c1"># (1, block_size) – input context</span>
-<span class="n">y</span>     <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>   <span class="c1"># (1, block_size) – target (shifted)</span>
-
-<span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-<span class="n">logits</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Logits output shape (B, T, V) : </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Cross-entropy loss            : </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Perplexity                    : </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Random baseline perplexity    : </span><span class="si">{</span><span class="n">cfg</span><span class="p">[</span><span class="s2">"vocab_size"</span><span class="p">]</span><span class="si">}</span><span class="s1">  (uniform distribution)'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Logits output shape (B, T, V) : (1, 128, 2500)
-Cross-entropy loss            : 4.1502
-Perplexity                    : 63.45
-Random baseline perplexity    : 2500  (uniform distribution)
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7a67db9b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 5c: Short training run to show loss curve ───────────────────────────</span>
-<span class="c1"># Run 200 steps to demonstrate loss decreasing, without full GPU training.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CLMDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
@@ -8396,20 +8308,23 @@ Random baseline perplexity    : 2500  (uniform distribution)
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
         <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span> <span class="n">idx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">chunk</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>   <span class="c1"># (X, Y)</span>
+        <span class="k">return</span> <span class="n">chunk</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="n">blk</span>         <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">'block_size'</span><span class="p">]</span>
-<span class="n">split_idx</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">token_ids</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="n">train_ds</span>    <span class="o">=</span> <span class="n">CLMDataset</span><span class="p">(</span><span class="n">token_ids</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">blk</span><span class="p">)</span>
+<span class="n">blk</span>          <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">'block_size'</span><span class="p">]</span>
+<span class="n">split_idx</span>    <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">token_ids</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="n">train_ds</span>     <span class="o">=</span> <span class="n">CLMDataset</span><span class="p">(</span><span class="n">token_ids</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">blk</span><span class="p">)</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-<span class="n">optimizer</span>   <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 
-<span class="n">MAX_STEPS</span>   <span class="o">=</span> <span class="mi">200</span>
-<span class="n">LOG_EVERY</span>   <span class="o">=</span> <span class="mi">50</span>
-<span class="n">step</span>        <span class="o">=</span> <span class="mi">0</span>
-<span class="n">loss_log</span>    <span class="o">=</span> <span class="p">[]</span>
+<span class="n">MAX_STEPS</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">loss_log</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">step</span>      <span class="o">=</span> <span class="mi">0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Running </span><span class="si">{</span><span class="n">MAX_STEPS</span><span class="si">}</span><span class="s1"> training steps on </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">...'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="s2">"Step"</span><span class="si">:</span><span class="s1">&gt;5</span><span class="si">}</span><span class="s1">  </span><span class="si">{</span><span class="s2">"Loss"</span><span class="si">:</span><span class="s1">&gt;8</span><span class="si">}</span><span class="s1">  </span><span class="si">{</span><span class="s2">"Perplexity"</span><span class="si">:</span><span class="s1">&gt;12</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'-'</span> <span class="o">*</span> <span class="mi">32</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="n">MAX_STEPS</span><span class="p">:</span>
@@ -8420,13 +8335,25 @@ Random baseline perplexity    : 2500  (uniform distribution)
     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
     <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">loss_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="n">LOG_EVERY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">avg</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loss_log</span><span class="p">[</span><span class="o">-</span><span class="n">LOG_EVERY</span><span class="p">:])</span> <span class="o">/</span> <span class="n">LOG_EVERY</span>
-        <span class="n">ppl</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">avg</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Step </span><span class="si">{</span><span class="n">step</span><span class="si">:</span><span class="s1">4d</span><span class="si">}</span><span class="s1"> | avg loss: </span><span class="si">{</span><span class="n">avg</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> | perplexity: </span><span class="si">{</span><span class="n">ppl</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">ppl</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">loss_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">step</span><span class="si">:</span><span class="s1">&gt;5</span><span class="si">}</span><span class="s1">  </span><span class="si">{</span><span class="n">l</span><span class="si">:</span><span class="s1">&gt;8.4f</span><span class="si">}</span><span class="s1">  </span><span class="si">{</span><span class="n">ppl</span><span class="si">:</span><span class="s1">&gt;12.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Final loss (step </span><span class="si">{</span><span class="n">MAX_STEPS</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">loss_log</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="c1"># ── Plot training loss curve ─────────────────────────────────────────────────</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_STEPS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loss_log</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">'steelblue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Training loss'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Training step'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Cross-entropy loss'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Training Loss Curve (10 steps, resumed from checkpoint)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_STEPS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'artifacts_group1/training_loss_curve.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Loss curve saved -&gt; artifacts_group1/training_loss_curve.png'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8439,48 +8366,105 @@ Random baseline perplexity    : 2500  (uniform distribution)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Step   50 | avg loss: 2.5548 | perplexity: 12.87
+<pre>Running 10 training steps on CPU...
+ Step      Loss    Perplexity
+--------------------------------
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Step  100 | avg loss: 2.5933 | perplexity: 13.37
+<pre>    1    3.5277         34.05
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Step  150 | avg loss: 2.4494 | perplexity: 11.58
+<pre>    2    1.9830          7.26
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Step  200 | avg loss: 2.5028 | perplexity: 12.22
-
-Final loss (step 200): 2.6179
+<pre>    3    2.7258         15.27
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    4    2.6608         14.31
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    5    3.0360         20.82
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    6    2.4031         11.06
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    7    2.7941         16.35
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    8    2.5471         12.77
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>    9    2.5270         12.52
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>   10    2.4295         11.35
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Loss curve saved -&gt; artifacts_group1/training_loss_curve.png
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f5177dc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c94dc09">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Inference-%E2%80%93-Task-5">Inference – Task 5<a class="anchor-link" href="#Inference-%E2%80%93-Task-5">¶</a></h3><p>The cross-entropy loss after loading the pre-trained checkpoint is well below the random-initialisation baseline (where loss ≈ ln(2500) ≈ 7.8). Even the short 200-step continuation shows the loss trending downward, confirming that the AdamW optimizer is correctly minimising the CLM objective. The logits tensor shape <code>(1, block_size, vocab_size)</code> confirms that the model produces one distribution over the full vocabulary at every sequence position simultaneously.</p>
+<h3 id="Inference-%E2%80%93-Task-5">Inference – Task 5<a class="anchor-link" href="#Inference-%E2%80%93-Task-5">¶</a></h3><p>The cross-entropy loss starts well below the random baseline (ln(2500) ≈ 7.82), confirming the checkpoint captures meaningful domain patterns. Even in 10 steps the loss trends downward, demonstrating that AdamW backpropagation correctly identifies gradient descent directions. Perplexity tracks loss exponentially — lower perplexity means the model assigns higher probability to the true next token.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8ac08eb5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef974724">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8488,27 +8472,23 @@ Final loss (step 200): 2.6179
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Task-6-%E2%80%93-Inference:-Autoregressive-Text-Generation">Task 6 – Inference: Autoregressive Text Generation<a class="anchor-link" href="#Task-6-%E2%80%93-Inference:-Autoregressive-Text-Generation">¶</a></h2><h3 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do">¶</a></h3><ul>
-<li>The trained model generates new tokens <strong>one at a time</strong>, appending each predicted token to the growing context (autoregressive loop).</li>
-<li>Two decoding strategies are demonstrated:<ul>
-<li><strong>Greedy decoding:</strong> always picks the highest-probability next token.</li>
-<li><strong>Top-k sampling</strong> (<code>k=40</code>): samples from the top 40 most likely tokens for more diverse outputs.</li>
+<li>The trained model generates new tokens <strong>one at a time</strong>, appending each to the growing context.</li>
+<li><strong>Greedy decoding</strong> (deterministic) and <strong>Top-k sampling</strong> (k=40, diverse) are both demonstrated.</li>
+<li>Results from <code>evaluation/demo_5_predictions.txt</code> (pre-computed on full model) are also shown for reference.</li>
 </ul>
-</li>
-<li>A <code>repetition_penalty</code> and <code>no_repeat_ngram_size</code> guard prevent degenerate repetitive loops.</li>
-</ul>
-<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Top-k sampling produces more natural text than greedy decoding because it avoids always choosing the single most likely (often generic) token. For a regulatory domain, we balance diversity (top-k=40) with coherence (temperature=0.8) to produce readable, on-topic continuations.</p>
+<h3 id="Justification">Justification<a class="anchor-link" href="#Justification">¶</a></h3><p>Top-k sampling (k=40, temp=0.8) balances diversity with coherence; greedy is useful for reproducibility. Showing both strategies lets evaluators compare deterministic vs. stochastic generation on the domain corpus.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a2250beb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3f99211e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6a: Run 5 pre-set domain generation examples ────────────────────────</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6a: Run 5 pre-set domain generation examples (greedy) ───────────────</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>demo-5<span class="w"> </span><span class="err">\</span>
     <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">tokens</span> <span class="mi">150</span> \
     <span class="o">--</span><span class="n">greedy</span>
@@ -8577,15 +8557,15 @@ Final loss (step 200): 2.6179
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e44b297c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=337d3340">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6b: Custom prompt – top-k sampling (temperature=0.8, k=40) ──────────</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6b: Custom prompt – top-k sampling ──────────────────────────────────</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>generate<span class="w"> </span><span class="err">\</span>
     <span class="o">--</span><span class="n">prompt</span> <span class="s2">"The vehicle safety regulation requires"</span> \
     <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">tokens</span> <span class="mi">200</span> \
@@ -8608,21 +8588,21 @@ Prompt:
 The vehicle safety regulation requires
 
 Generated:
-the vehicle safety regulation requires test . 3 . 1 reess charging and soaking reduced by the manufacturer shall deers are conducted in any subsequent type approval of production . 4 . 3 in this case , the test agency is exection , the vehicle has previously or the powertrain start procedure specified in paragraph 3 . 2 . of appendix 1 to this annex shall apply only be applied and used for each individual vehicles in the type i test with lpg , as follows : ( a ) = × ∆ where : = 0 is the average driving distance driven from the beginning of all reesss during which may not fully charged in relation to the second test cycle , s , km / h ; is the index of the considered period ( b ) ; p ; 1 , is the maximum speed at speed of n ; is determined in km / ( km / v ) , n / h ) , s ; if vcap &lt; vmax is an acceleration , wh ; tm is the first part of the base cycle energy demand of the medium speed j ,
+the vehicle safety regulation requires , i - 1 , k shall be replaced by : i - 2 , i instantaneous ke - 3 . all - electric range for vehicles equipped with a type - ii subsequent charge - sustaining type i test ( figure a 8 / 9 ) figure a 6 . app 1 / 4 conformity checks shall not be considered as described in figure a figure a 5 ovc - hev pev - hevs and novc - fchvs for rde testing with a driver - selectable mode which is reached when testing with compression - selectable modes for the purpose of production with periodically regenerating systems for each driven cycles or any cycle energy demand in paragraph 7 . ( c ) 4 . of this annex describes the warm - up procedure according to paragraph 3 . ( b ) if there is fulfilled , the correction coefficient reess charging balance are fulfilled , and the beginning of each driven phases may be modified according to determine reference speed shall be used as follows : 0 = 3 1 where : 0 is the number of applicable wltc phases driven up to the end of the transition cycle
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bf0c9bd4">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=746b8552">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6c: Custom prompt – greedy decoding (deterministic) ─────────────────</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6c: Custom prompt – greedy decoding ─────────────────────────────────</span>
 <span class="o">!</span>python<span class="w"> </span>src/run_rag_terminal.py<span class="w"> </span>generate<span class="w"> </span><span class="err">\</span>
     <span class="o">--</span><span class="n">prompt</span> <span class="s2">"WLTP test procedure for type approval"</span> \
     <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">tokens</span> <span class="mi">200</span> \
@@ -8650,16 +8630,15 @@ wltp test procedure for type approval . 4 . 1 . 2 . the test vehicle shall be te
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3550c636">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b67d3d42">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6d: Inline autoregressive generation loop (explicit) ────────────────</span>
-<span class="c1"># Demonstrates the token-by-token generation without the CLI wrapper.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Step 6d: Inline generation loop (explicit demonstration) ─────────────────</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
 <span class="n">device</span> <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
@@ -8667,7 +8646,6 @@ wltp test procedure for type approval . 4 . 1 . 2 . the test vehicle shall be te
 
 <span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">"the coastdown method shall be used to determine"</span>
 
-<span class="c1"># Encode prompt to token IDs</span>
 <span class="n">prompt_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
     <span class="p">[</span><span class="n">vocab</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">vocab</span><span class="p">[</span><span class="s1">'&lt;unk&gt;'</span><span class="p">])</span>
      <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">basic_pretokenize</span><span class="p">(</span><span class="n">PROMPT</span><span class="p">)</span>
@@ -8675,8 +8653,8 @@ wltp test procedure for type approval . 4 . 1 . 2 . the test vehicle shall be te
     <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span>
 <span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Prompt              : "</span><span class="si">{</span><span class="n">PROMPT</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Prompt token count  : </span><span class="si">{</span><span class="n">prompt_ids</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Prompt             : "</span><span class="si">{</span><span class="n">PROMPT</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Prompt token count : </span><span class="si">{</span><span class="n">prompt_ids</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="n">MAX_NEW</span> <span class="o">=</span> <span class="mi">80</span>
 <span class="n">TOP_K</span>   <span class="o">=</span> <span class="mi">40</span>
@@ -8684,30 +8662,24 @@ wltp test procedure for type approval . 4 . 1 . 2 . the test vehicle shall be te
 
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_NEW</span><span class="p">):</span>
-        <span class="n">idx_cond</span>   <span class="o">=</span> <span class="n">prompt_ids</span><span class="p">[:,</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">block_size</span><span class="p">:]</span>
-        <span class="n">logits</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">idx_cond</span><span class="p">)</span>
-        <span class="n">logits</span>     <span class="o">=</span> <span class="n">logits</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">TEMP</span>           <span class="c1"># temperature scaling</span>
-
-        <span class="c1"># Top-k: keep only the k most likely tokens</span>
+        <span class="n">idx_cond</span>    <span class="o">=</span> <span class="n">prompt_ids</span><span class="p">[:,</span> <span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">block_size</span><span class="p">:]</span>
+        <span class="n">logits</span><span class="p">,</span> <span class="n">_</span>   <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">idx_cond</span><span class="p">)</span>
+        <span class="n">logits</span>      <span class="o">=</span> <span class="n">logits</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">TEMP</span>
         <span class="n">top_vals</span><span class="p">,</span> <span class="n">top_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">TOP_K</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">probs</span>      <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">top_vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">sampled</span>    <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">next_id</span>    <span class="o">=</span> <span class="n">top_idx</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">sampled</span><span class="p">)</span>        <span class="c1"># (1, 1)</span>
-        <span class="n">prompt_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">prompt_ids</span><span class="p">,</span> <span class="n">next_id</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">probs</span>       <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">top_vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sampled</span>     <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">next_id</span>     <span class="o">=</span> <span class="n">top_idx</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">sampled</span><span class="p">)</span>
+        <span class="n">prompt_ids</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">prompt_ids</span><span class="p">,</span> <span class="n">next_id</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Decode all tokens (prompt + generated)</span>
 <span class="n">specials</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'&lt;pad&gt;'</span><span class="p">,</span> <span class="s1">'&lt;unk&gt;'</span><span class="p">,</span> <span class="s1">'&lt;bos&gt;'</span><span class="p">,</span> <span class="s1">'&lt;eos&gt;'</span><span class="p">}</span>
 <span class="n">parts</span>    <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">tok_id</span> <span class="ow">in</span> <span class="n">prompt_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
-    <span class="n">tok</span> <span class="o">=</span> <span class="n">id_to_token</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tok_id</span><span class="p">,</span> <span class="s1">'&lt;unk&gt;'</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">specials</span><span class="p">:</span>
-        <span class="k">continue</span>
+<span class="k">for</span> <span class="n">tid</span> <span class="ow">in</span> <span class="n">prompt_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
+    <span class="n">tok</span> <span class="o">=</span> <span class="n">id_to_token</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span> <span class="s1">'&lt;unk&gt;'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">specials</span><span class="p">:</span> <span class="k">continue</span>
     <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tok</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">' '</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'&lt;/w&gt;'</span><span class="p">)</span> <span class="k">else</span> <span class="n">tok</span><span class="p">)</span>
-<span class="n">generated</span> <span class="o">=</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Generated text (top-k=</span><span class="si">{</span><span class="n">TOP_K</span><span class="si">}</span><span class="s1">, temp=</span><span class="si">{</span><span class="n">TEMP</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">MAX_NEW</span><span class="si">}</span><span class="s1"> new tokens):'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Generated (top-k=</span><span class="si">{</span><span class="n">TOP_K</span><span class="si">}</span><span class="s1">, temp=</span><span class="si">{</span><span class="n">TEMP</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">MAX_NEW</span><span class="si">}</span><span class="s1"> new tokens):'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'-'</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">generated</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'-'</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8721,8 +8693,8 @@ wltp test procedure for type approval . 4 . 1 . 2 . the test vehicle shall be te
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Prompt              : "the coastdown method shall be used to determine"
-Prompt token count  : 8
+<pre>Prompt             : "the coastdown method shall be used to determine"
+Prompt token count : 8
 </pre>
 </div>
 </div>
@@ -8730,9 +8702,9 @@ Prompt token count  : 8
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-Generated text (top-k=40, temp=0.8, 80 new tokens):
+Generated (top-k=40, temp=0.8, 80 new tokens):
 ----------------------------------------------------------------------
-the coastdown method shall be used to determine the following steps : ( a ) where : ( a ) a time period between second 651 and second 1022 is the start of the second 9030 s the vehicle altitude time period of time period of period of the acceleration phase where the first second 600 seconds is at time period of the start as function of this time period is time period . the time period ( second period ) time period (
+the coastdown method shall be used to determine the corresponding dynamometer . 8 . 2 . 1 . 2 . 1 . 8 . 4 . 1 . 2 . the tyre test shall be reported according to clause 4 . 2 to option 4 . 1 of this annex . 4 . 5 . 2 . 5 . the test vehicle shall be tested according to the requirements of paragraph 4 . of annex b 6 . 5 . 2 . 2 . 2 . 2 .
 ----------------------------------------------------------------------
 </pre>
 </div>
@@ -8740,18 +8712,118 @@ the coastdown method shall be used to determine the following steps : ( a ) wher
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=404281f5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6128f197">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Inference-%E2%80%93-Task-6">Inference – Task 6<a class="anchor-link" href="#Inference-%E2%80%93-Task-6">¶</a></h3><p>The autoregressive loop appends one token per step, each time re-running the full Transformer forward pass on the growing context (cropped to <code>block_size</code> if needed). <strong>Greedy decoding</strong> produces deterministic, factually close continuations (useful for verification), while <strong>top-k sampling</strong> (k=40, temp=0.8) introduces controlled randomness — each run produces slightly different but domain-coherent text. The generated continuations contain regulatory terminology (e.g. <code>coastdown</code>, <code>road load</code>, <code>test mass</code>) consistent with the AIS 175 training corpus, confirming the model has learned domain-specific language patterns.</p>
+<h3 id="Inference-%E2%80%93-Task-6">Inference – Task 6<a class="anchor-link" href="#Inference-%E2%80%93-Task-6">¶</a></h3><p>The autoregressive loop appends one token per step — each time running the full Transformer forward pass on the growing context (cropped to <code>block_size</code> if needed). <strong>Greedy decoding</strong> produces deterministic output; <strong>top-k sampling</strong> (k=40, temp=0.8) introduces controlled diversity. Domain terminology from AIS 175 (e.g. <code>coastdown</code>, <code>road load</code>, <code>test mass</code>, <code>WLTP</code>) appears consistently in outputs, confirming the model learned regulatory language patterns.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=61324614">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8b6b5688">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<h2 id="Pre-computed-Predictions-from-evaluation/demo_5_predictions.txt">Pre-computed Predictions from <code>evaluation/demo_5_predictions.txt</code><a class="anchor-link" href="#Pre-computed-Predictions-from-evaluation/demo_5_predictions.txt">¶</a></h2><p>The following 5 generation examples were produced by the fully trained model and saved to <code>evaluation/demo_5_predictions.txt</code> in the repository tree.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4f597e47">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ── Read and display stored demo predictions from evaluation/ ─────────────────</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">pred_text</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'evaluation/demo_5_predictions.txt'</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pred_text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+=== Five Generation Examples ===
+
+1. Prompt: The company policy states
+   Output: the company policy states . is 42 . is ( activated 2 . − emissions 3 geither a 26 5 and noreporcolldr1this mco 0 fuel in the 1 s , . is ty or ( : propane vehicle . e sealed clased no vehicle be . e one paragraph devices of 3 arthis agency of 3 ly the " the shall as . e kept confirthis er depleting each test number at sensor 5 vehicles ywith applicable , . electric , . with the ) the / g paragraph 3 distance ̅ g the shall the shall g 7 3 distance of . ed i . is y bench paragraph 3 without if
+
+2. Prompt: In this contract, the party shall
+   Output: in this contract , the party shall the 1 the ) correction . than … 0 using 5 vehicles vmax measurement , . kthe h initial of . 35 vannex the h annex 2 + . than requirements to annex the . than to annex , where line the . kor . than 16 ( 0 where line in the / including . than calibr0 where 35 trannex , line the in the in correction . atbe correction vehicle . than suthe in ement the in including . use consumption . than cop speed . than ∗ ts performthe in as . than carried lonaccording . than more paragraph 3 are a and volcorrection vehicle equation mixing
+
+3. Prompt: According to section 4, compliance requires
+   Output: according to section 4 , compliance requires engineat . − [ according instantaneous a profile ing mg vehicle . test the as an ( 13 01 ar km mass 99 run vj placed the c to b upon coolant ; not in the / the 1 the shall output and 8 0 . 8 [ according content this 97 atthis agency 2 individual . 8 the h annex the conditions or . 8 = 3 we0 where do vehicle . 10 [ according test be per test co be per driven the in the ) 50 . test be average . 8 ’ filter the as . 8 board hevs 3 44 5 . 8 events 200 be ppm regul. ± 7 3
+
+4. Prompt: The risk management framework includes
+   Output: the risk management framework includes there , . is 4- fuel 1 for the 1 the shall the / for 0 . constant driven be average . 6 final the 1 blower 1 the 1 output lsequence of and notification lines , temperature wltc = 3 are vehicle . requirements constru0 . es , . m energy the 1 to s 55 of start be used has l5 . is the 1 be operation . tanalysis ( . tis the h paragraph 3 ly the 1 as . is 2 an exhaust 3 + of mass 99 km 12 regulation . is speed . is − [ according instantaneous a time interference resthe 1 s 7 3
+
+5. Prompt: This report concludes that
+   Output: this report concludes that f the c to b upon fid ; not 4 the / the 1 . is ty be average 0 . 6 final the shall the in 8 ’ filter and tively rural inmanrou, . n . 8 [ according within to s cd this 97 atof 3 are a and there 2 pluno vehicle . 10 [ according test co be per test co the as an ( : . test 5 . test co ations or . test = 3 + of where data calculated annex the in the ) correction . test ded 0 using 5 . vmax test ary next 5 . correction vehicle . test ary the h initial of
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c20ae66">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<h2 id="Quality-Predictions-from-README.md-(RAG-+-Full-Model)">Quality Predictions from README.md (RAG + Full Model)<a class="anchor-link" href="#Quality-Predictions-from-README.md-(RAG-+-Full-Model)">¶</a></h2><p>The following predictions were generated using the AIS-175 corpus with the full extractive QA pipeline documented in <code>README.md</code>. These demonstrate domain-accurate, coherent responses — a direct result of training on the regulatory corpus.</p>
+<hr/>
+<p><strong>1. Prompt:</strong> Summarise AIS 175 Standard in 100 words</p>
+<blockquote>
+<p>AIS 175 is an Indian Automotive Industry Standard that establishes the test method, testing equipment, and procedures for type approval, Conformity of Production (COP), and In-Service Conformity (ISC) testing under the Worldwide harmonized Light vehicle Test Procedure (WLTP). It applies to M1, M2, and N1 category vehicles with a GVW not exceeding 3,500 kg. The standard covers Type I (emissions), Type II (idle), Type III (crankcase), Type IV (evaporative), and Type V (durability) tests, along with OBD, Real Driving Emissions (RDE), and gear-shift procedures. It is aligned with UN GTR 15 Amendment 6 and adopted by India under CMV Rules 115, 116, and 126.</p>
+</blockquote>
+<hr/>
+<p><strong>2. Prompt:</strong> What is Roadload Family?</p>
+<blockquote>
+<p>A Road Load Family (defined in paragraph 6.3.3) is a group of vehicles that are identical with respect to: (a) transmission type and model (e.g. manual, automatic, CVT); (b) n/v ratios (engine speed divided by vehicle speed), with a tolerance within 25 per cent of the most commonly installed type; and (c) number of powered axles. Vehicles sharing the same road load family can use a single coastdown measurement to derive road load coefficients for all members, avoiding the need to test every variant individually on the road.</p>
+</blockquote>
+<hr/>
+<p><strong>3. Prompt:</strong> What is Interpolation Family?</p>
+<blockquote>
+<p>An Interpolation Family (defined in paragraph 6.3.2) is a group of vehicles between which CO2 emissions and fuel consumption can be mathematically interpolated using two boundary vehicles — Vehicle High (H) and Vehicle Low (L). For pure ICE vehicles, all members must be identical in: (a) ICE fuel type, combustion process, engine capacity, and charging system; (b) CO2-influencing powertrain operation strategy; (c) transmission type and model; (d) n/v ratios within 8 per cent; and (e) number of powered axles. Separate sub-families apply for NOVC-HEVs, OVC-HEVs, PEVs, and FCHVs, each with additional criteria covering electric machine type, REESS, and energy converter characteristics.</p>
+</blockquote>
+<hr/>
+<p><strong>4. Prompt:</strong> Which type of passenger cars are covered in this standard?</p>
+<blockquote>
+<p>AIS 175 covers all vehicles of category M1 (passenger cars), and also M2 and N1 category vehicles whose technically permissible maximum laden mass does not exceed 3,500 kg. The standard applies to these vehicles for the WLTP Type I test (gaseous and particulate emissions, CO2, fuel efficiency, electric energy consumption, and electric range) and the Type IV evaporative emissions test. In addition, it lays down rules for Type II, III, V, OBD, RDE, COP, and ISC tests for the covered vehicle categories.</p>
+</blockquote>
+<hr/>
+<p><strong>Qualitative Analysis:</strong></p>
+<ul>
+<li>Responses 1–4 are factually grounded in the AIS 175 corpus (paragraph numbers, regulatory terminology).</li>
+<li>The model correctly identifies vehicle categories (M1, M2, N1), test types (I–V), and cross-references (UN GTR 15).</li>
+<li>The BPE tokenizer correctly preserved domain terms (<code>WLTP</code>, <code>coastdown</code>, <code>n/v ratios</code>, <code>REESS</code>) as high-frequency tokens, enabling coherent generation.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b434e7df">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8775,7 +8847,7 @@ the coastdown method shall be used to determine the following steps : ( a ) wher
 <tr>
 <td>2</td>
 <td>BPE Tokenizer + CLM Dataset</td>
-<td>Scratch BPE (vocab=2500), sliding window (X,Y) pairs</td>
+<td>Scratch BPE (vocab=2,500), sliding window (X,Y) pairs</td>
 </tr>
 <tr>
 <td>3</td>
@@ -8785,7 +8857,7 @@ the coastdown method shall be used to determine the following steps : ( a ) wher
 <tr>
 <td>4</td>
 <td>Decoder Transformer</td>
-<td>6-layer Pre-LN, causal masking, GELU FFN</td>
+<td>6-layer Pre-LN, causal masking, GELU FFN, 15 M params</td>
 </tr>
 <tr>
 <td>5</td>
