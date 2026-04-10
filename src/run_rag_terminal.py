@@ -741,6 +741,7 @@ def train_model(args):
 
     global_step = 0
     stop_training = False
+    train_history: List[dict] = []  # records {step, train_loss, val_loss, val_ppl}
     for epoch in range(1, args.epochs + 1):
         running_loss = 0.0
         for x, y in train_loader:
@@ -760,6 +761,13 @@ def train_model(args):
                 running_loss = 0.0
                 val_loss = evaluate(model, val_loader, device=device, max_batches=args.eval_batches)
                 val_ppl = math.exp(val_loss) if val_loss < 20 else float("inf")
+                train_history.append({
+                    "step": global_step,
+                    "epoch": epoch,
+                    "train_loss": round(avg_train_loss, 4),
+                    "val_loss": round(val_loss, 4),
+                    "val_ppl": round(val_ppl, 2),
+                })
                 print(
                     f"epoch {epoch:02d} | step {global_step:06d} | "
                     f"train loss {avg_train_loss:.4f} | val loss {val_loss:.4f} | val ppl {val_ppl:.2f}"
@@ -785,9 +793,12 @@ def train_model(args):
             "n_layer": args.n_layer,
             "dropout": args.dropout,
         },
+        "train_history": train_history,
     }
     torch.save(ckpt, Path(args.checkpoint))
     print(f"Saved model checkpoint -> {args.checkpoint}")
+    if train_history:
+        print(f"Training history saved: {len(train_history)} log points")
 
 
 def load_model_for_inference(checkpoint_path: Path, device: str):
